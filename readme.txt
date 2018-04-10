@@ -1,0 +1,4 @@
+- login component
+- read data from mongo db
+- authorization
+- reports
