@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/css/bootstrap-grid.css" />
+<link rel="stylesheet" href="/css/grid.css" />
+<h2 class="page-header">Devices</h2>
+
+{{#if devices}}
+    <div class="row">
+      {{#each devices}}
+        <div class="col-md-4">{{id}}</div>
+        <div class="col-md-4">{{name}}</div>
+        <div class="col-md-3">{{type}}</div>
+        <div class="col-md-1"><a class="btn btn-round btn-info">Info</a></div>
+      {{/each}}
+    </div>          
+{{/if}}

@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="/css/bootstrap-grid.css" />
+<link rel="stylesheet" href="/css/grid.css" />
+<h2 class="page-header">All Customers</h2>
+{{#if users}}
+    <div class="row">
+      {{#each users}}
+        <div class="col-md-4">{{name}}</div>
+        <div class="col-md-4">{{_id}}</div>
+        <div class="col-md-3">{{phoneNumber}}</div>
+        <div class="col-md-1"><a class="btn btn-round btn-info" href="/users/detail?id={{_id}}">Info</a></div>
+      {{/each}}
+    </div>          
+{{/if}}

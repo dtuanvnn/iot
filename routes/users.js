@@ -5,6 +5,28 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('../models/user');
 
+// List all users
+router.get('/', ensureAuthenticated, function(req, res){
+	User.getAllUser(function (err, users) {
+		if (err) throw err;
+
+		res.render('all-users', {
+			users: users
+		});
+	});
+});
+
+// Detail user
+router.get('/detail', function(req, res) {
+	User.getUserById(req.query.id, function(err, user){
+		if (err) throw err;
+
+		res.render('user-detail', {
+			user: user
+		});
+	});
+})
+
 // Register
 router.get('/register', function(req, res){
 	res.render('register');
@@ -97,3 +119,11 @@ router.get('/logout', function(req, res){
 });
 
 module.exports = router;
+
+function ensureAuthenticated(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	} else {
+		res.redirect('/users/login');
+	}
+}
