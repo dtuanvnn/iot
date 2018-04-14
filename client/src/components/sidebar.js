@@ -1,36 +1,35 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import {ListGroup, ListGroupItem, Nav, NavItem } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+
+import '../css/bootstrap.css'
+// import '../css/app.css'
 
 class Sidebar extends Component {
   render() {
     return (
-      <div style={{ display: "flex" }}>
-        <div
-          style={{
-            padding: "10px",
-            width: "40%",
-            background: "#f0f0f0"
-          }}
-        >
-          <ul style={{ listStyleType: "none", padding: 0 }}>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-            <li>
-              <Link to="/history">History</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <Nav bsStyle="pills" stacked>
+          <LinkContainer to="/login">
+            <NavItem>Login</NavItem>
+          </LinkContainer>
+
+          <LinkContainer to="/dashboard">
+            <NavItem>Dashboard</NavItem>
+          </LinkContainer>
+
+          <LinkContainer to="/users">
+            <NavItem>Users</NavItem>
+          </LinkContainer>
+
+          <LinkContainer to="/history">
+            <NavItem>History</NavItem>
+          </LinkContainer>
+          
+          <LinkContainer to="/about">
+            <NavItem>About</NavItem>
+          </LinkContainer>
+      </Nav>
     )
   }
 }

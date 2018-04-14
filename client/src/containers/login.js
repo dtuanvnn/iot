@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
-import style from '../../public/css/stylesheet';
+import '../css/style.css';
 import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom'
+
+import authenticate from '../functions/authenticate'
 
 class Login extends Component {
+  state = {
+    redirectToReferrer: false
+  };
+
+  login = () => {
+    authenticate.authenticate(() => {
+      this.setState({ redirectToReferrer: true });
+    });
+  }
+
   constructor(props) {
     super(props);
     this.state = {username: '', password: ''};
@@ -25,9 +38,16 @@ class Login extends Component {
   }
   
   render() {
+    const { from } = this.props.location.state || { from: { pathname: "/" } };
+    const { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer) {
+      return <Redirect to={from} />;
+    }
+
     return (
       <div className="login">
-        <h2 class="style.page-header">Account Login</h2>
+        <h2 class="page-header">Account Login</h2>
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="username" bsSize="large">
             <ControlLabel>Username</ControlLabel>
