@@ -7,6 +7,9 @@ var UserSchema = mongoose.Schema({
 		type: String,
 		index:true
 	},
+	_id: {
+		type: String
+	},
 	email: {
 		type: String
 	},
@@ -54,6 +57,11 @@ module.exports.getUserByUsername = function(name, callback){
 
 module.exports.getUserById = function(id, callback){
 	User.findById(id, callback);
+}
+
+module.exports.getUserByPhone = function(phoneNumber, callback){
+	var query = {phoneNumber: phoneNumber};
+	User.findOne(query, callback);
 }
 
 module.exports.comparePassword = function(candidatePassword, hash, callback){

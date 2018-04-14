@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/css/bootstrap-grid.css" />
+<link rel="stylesheet" href="/css/grid.css" />
+<h2 class="page-header">Lịch sử cảm biến</h2>
+{{#if sensors}}
+      {{#each sensors}}
+      <div class="row">
+        <div class="col-md-1">{{airTemp}}</div>
+        <div class="col-md-1">{{airHum}}</div>
+        <div class="col-md-1">{{soilTemp}}</div>
+        <div class="col-md-1">{{soilHum}}</div>
+        <div class="col-md-2">{{elecNeg}}</div>
+        <div class="col-md-3">{{formatDate utc}}</div>
+        <div class="col-md-1"><a class="btn btn-round btn-info" href="/users/detail?id={{phoneNumber}}">Chi tiết</a></div>
+        </div>
+      {{/each}}
+{{else}}
+  <p>Không có dữ liệu lịch sử cảm biến nào.</p>          
+{{/if}}

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../css/style.css';
 import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
+import axios from 'axios'
+import callApi from '../util/apiCaller'
 
 import authenticate from '../functions/authenticate'
 
@@ -33,7 +35,13 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.username);
+    axios.get('http://localhost:3001/')
+    .then(function (res) {
+      console.log(res)
+    })
+    .catch(function (err) {
+      console.log(err)
+    })
     event.preventDefault();
   }
   

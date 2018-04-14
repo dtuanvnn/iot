@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var uuidv4 = require('uuid/v4');
 
 var User = require('../models/user');
+var ensureAuthenticated = require('../functions/ensureAuthenticated')
 
 // List all users
 router.get('/', ensureAuthenticated, function(req, res){
@@ -18,7 +20,7 @@ router.get('/', ensureAuthenticated, function(req, res){
 
 // Detail user
 router.get('/detail', function(req, res) {
-	User.getUserById(req.query.id, function(err, user){
+	User.getUserByPhone(req.query.id, function(err, user){
 		if (err) throw err;
 
 		res.render('user-detail', {
@@ -61,7 +63,8 @@ router.post('/register', function(req, res){
 		var newUser = new User({
 			name: name,
 			email:email,
-			password: password
+			password: password,
+			_id: uuidv4()
 		});
 
 		User.createUser(newUser, function(err, user){
@@ -119,11 +122,3 @@ router.get('/logout', function(req, res){
 });
 
 module.exports = router;
-
-function ensureAuthenticated(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	} else {
-		res.redirect('/users/login');
-	}
-}

@@ -19,10 +19,12 @@
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
+    "handlebars-intl": "^1.1.2",
     "mongodb": "*",
     "mongoose": "*",
     "passport": "*",
     "passport-http": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "uuid": "^3.2.1"
   }
 }

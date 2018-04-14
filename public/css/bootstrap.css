@@ -9,6 +9,12 @@ html {
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
+.active{
+  color:#5cb85c;
+ }
+.inactive{
+  color:#d43f3a;
+} 
 body {
   margin: 0;
 }

@@ -1,13 +1,15 @@
 <link rel="stylesheet" href="/css/bootstrap-grid.css" />
 <link rel="stylesheet" href="/css/grid.css" />
-<h2 class="page-header">All Customers</h2>
+<h2 class="page-header">Tất Cả Khách Hàng</h2>
 {{#if users}}
     <div class="row">
       {{#each users}}
         <div class="col-md-4">{{name}}</div>
         <div class="col-md-4">{{_id}}</div>
         <div class="col-md-3">{{phoneNumber}}</div>
-        <div class="col-md-1"><a class="btn btn-round btn-info" href="/users/detail?id={{_id}}">Info</a></div>
+        <div class="col-md-1"><a class="btn btn-round btn-info" href="/users/detail?id={{phoneNumber}}">Chi tiết</a></div>
       {{/each}}
-    </div>          
+    </div>
+{{else}}
+  <p>Không có khách hàng nào.</p>>          
 {{/if}}

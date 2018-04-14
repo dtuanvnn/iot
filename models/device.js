@@ -2,9 +2,8 @@ var mongoose = require('mongoose');
 
 // Devices Schema
 var DeviceSchema = mongoose.Schema({
-	id: {
-		type: String,
-		index:true
+	_id: {
+		type: String
 	},
 	name: {
 		type: String
@@ -20,6 +19,12 @@ var DeviceSchema = mongoose.Schema({
 	},
 	user: {
 		type: Object
+	},
+	enable: {
+		type: Number
+	},
+	relay: {
+		type: Number
 	}
 });
 
@@ -30,10 +35,10 @@ module.exports.getDevicesByUserId = function(userId, callback){
     Device.find(query, callback);
 }
 
-module.exports.getUserById = function(id, callback){
+module.exports.getDeviceById = function(id, callback){
 	Device.findById(id, callback);
 }
 
-module.exports.getAllUser = function(callback) {
+module.exports.getAllDevices = function(callback) {
 	Device.find(callback);
 }
