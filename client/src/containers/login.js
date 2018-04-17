@@ -5,22 +5,26 @@ import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import callApi from '../util/apiCaller'
 
-import authenticate from '../functions/authenticate'
+import Authenticate from '../functions/authenticate'
 
 class Login extends Component {
   state = {
     redirectToReferrer: false
   };
 
-  login = () => {
-    authenticate.authenticate(() => {
-      this.setState({ redirectToReferrer: true });
-    });
+  login = (res) => {
+    console.log(res)
+
+    localStorage.setItem('token', res.data.token)
+    this.setState({redirectToReferrer: true})
   }
 
   constructor(props) {
     super(props);
-    this.state = {username: '', password: ''};
+    this.state = {
+      username: '', 
+      password: ''
+    }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -35,10 +39,11 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
-    axios.get('http://localhost:3001/')
-    .then(function (res) {
-      console.log(res)
+    axios.post('http://localhost:3001/users/login', {
+      username: this.state.username,
+      password: this.state.password
     })
+    .then(this.login)
     .catch(function (err) {
       console.log(err)
     })

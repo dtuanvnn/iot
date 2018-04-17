@@ -7,7 +7,6 @@ var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
@@ -29,8 +28,10 @@ app.set('view engine', 'handlebars');
 
 // BodyParser Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+var cookieSecretKey = process.env.COOKIE_SECRET_KEY;
+var sessionSecretKey = process.env.SESSION_SECRET_KEY;
+app.use(cookieParser(cookieSecretKey));
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'client')));
 
 // Express Session
 app.use(session({
-    secret: 'secret',
+    secret: 'fcE44M6OrYAotb659eMFbxLYHPpfOIqn2kCtqnBl',
     saveUninitialized: true,
     resave: true
 }));
@@ -78,7 +79,11 @@ app.use(function (req, res, next) {
   next();
 });
 
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  next();
+});
 
 app.use('/', routes);
 app.use('/users', users);

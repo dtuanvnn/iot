@@ -3,6 +3,11 @@ var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var uuidv4 = require('uuid/v4');
+var jwt = require('jsonwebtoken');
+var passportJWT = require("passport-jwt");
+
+var ExtractJwt = passportJWT.ExtractJwt;
+var JwtStrategy = passportJWT.Strategy;
 
 var User = require('../models/user');
 var ensureAuthenticated = require('../functions/ensureAuthenticated')
@@ -15,6 +20,14 @@ router.get('/', ensureAuthenticated, function(req, res){
 		res.render('all-users', {
 			users: users
 		});
+	});
+});
+
+router.get('/api', ensureAuthenticated, function(req, res){
+	User.getAllUser(function (err, users) {
+		if (err) throw err;
+
+		res.send(users)
 	});
 });
 
@@ -64,6 +77,7 @@ router.post('/register', function(req, res){
 			name: name,
 			email:email,
 			password: password,
+			phoneNumber: '0001212',
 			_id: uuidv4()
 		});
 
@@ -98,20 +112,69 @@ passport.use(new LocalStrategy(
   }));
 
 passport.serializeUser(function(user, done) {
+	console.log('Seri: ' + user)
   done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
   User.getUserById(id, function(err, user) {
+		console.log('Deseri: ' + user)
     done(err, user);
   });
 });
 
-router.post('/login',
-  passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login',failureFlash: true}),
-  function(req, res) {
-    res.redirect('/');
+var jwtOptions = {}
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+jwtOptions.secretOrKey = 'mycode';
+
+var strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
+  console.log('payload received', jwt_payload);
+	// usually this would be a database call:
+	User.getUserById(jwt_payload.id, function(err, user) {
+		if (err) next(null, false)
+    next(null, user);
   });
+
+  /* var user = users[_.findIndex(users, {id: jwt_payload.id})];
+  if (user) {
+    next(null, user);
+  } else {
+    next(null, false);
+  } */
+});
+
+passport.use(strategy);
+
+router.get('/islogged', passport.authenticate('jwt', { session: false }), function (req, res) {
+	console.log('OK')
+	res.sendStatus(200)
+})
+
+router.post('/login', function (req, res, next) {
+	passport.authenticate('local', {failureFlash: true, session: true}, function(err, user, info) {
+		req.login(user, function (err) {
+			if (err) return err
+			var payload = {id: user._id};
+			var token = jwt.sign(payload, jwtOptions.secretOrKey);
+			return res.json({message: "ok", token: token});
+		})
+	}) (req, res, next)
+})
+
+/* router.post('/login', function (req, res, next) {
+	passport.authenticate('local', {failureFlash: true, session: true}, function(err, user, info) {
+		req.login(user, function (err) {
+			return res.sendStatus(200)
+		})
+	}) (req, res, next)
+}) */
+
+router.post('/login2', 
+	passport.authenticate('local', {failureFlash: true, session: true}),
+	function (req, res, next) {
+		res.sendStatus(200)
+	}
+)
 
 router.get('/logout', function(req, res){
 	req.logout();

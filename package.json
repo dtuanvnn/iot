@@ -20,10 +20,13 @@
     "express-session": "*",
     "express-validator": "*",
     "handlebars-intl": "^1.1.2",
+    "jsonwebtoken": "^8.2.1",
+    "lodash": "^4.17.5",
     "mongodb": "*",
     "mongoose": "*",
     "passport": "*",
     "passport-http": "*",
+    "passport-jwt": "^4.0.0",
     "passport-local": "*",
     "uuid": "^3.2.1"
   }
