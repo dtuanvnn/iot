@@ -13,6 +13,14 @@
     "react-scripts": "1.1.4",
     "react-vis": "^1.9.2"
   },
+  "devDependencies": {
+    "css-loader": "^0.26.1",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.1",
+    "extract-text-webpack-plugin": "^2.0.0-beta",
+    "webpack": "2.2.0-rc.4",
+    "webpack-dev-server": "2.2.0-rc.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

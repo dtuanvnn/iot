@@ -18,6 +18,14 @@ router.get('/', ensureAuthenticated, function(req, res){
 	});
 });
 
+router.get('/api', function(req, res){
+	User.getAllUser(function (err, users) {
+		if (err) throw err;
+
+		res.send(users);
+	});
+});
+
 // Detail user
 router.get('/detail', function(req, res) {
 	User.getUserByPhone(req.query.id, function(err, user){
@@ -108,10 +116,12 @@ passport.deserializeUser(function(id, done) {
 });
 
 router.post('/login',
-  passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login',failureFlash: true}),
+	//passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login',failureFlash: true}),
+	passport.authenticate('local', { failureRedirect:'/users/login', failureFlash: true}),
   function(req, res) {
-    res.redirect('/');
-  });
+		//res.redirect('/');
+		res.send(true)
+	});
 
 router.get('/logout', function(req, res){
 	req.logout();

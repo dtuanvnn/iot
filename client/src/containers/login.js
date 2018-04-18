@@ -5,17 +5,25 @@ import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import callApi from '../util/apiCaller'
 
-import authenticate from '../functions/authenticate'
+import { Authenticate } from '../functions/authenticate'
 
 class Login extends Component {
   state = {
-    redirectToReferrer: false
+    redirectToReferrer: false,
   };
 
-  login = () => {
-    authenticate.authenticate(() => {
+  login = (res) => {
+    if (res.status === 200) {
+      this.setState({ redirectToReferrer: true })
+        Authenticate.signin(() => {
+        this.setState({ redirectToReferrer: true })
+        console.log('OK')
+      })
+    }
+
+    /* authenticate.authenticate(() => {
       this.setState({ redirectToReferrer: true });
-    });
+    }); */
   }
 
   constructor(props) {
@@ -24,7 +32,7 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  validateForm() {
+  validateForm = () => {
     return this.state.username.length > 0 && this.state.password.length > 0;
   }
 
@@ -34,15 +42,24 @@ class Login extends Component {
     })
   }
 
-  handleSubmit(event) {
-    axios.get('http://localhost:3001/')
+  handleSubmit = event => {
+    console.log(event)
+    event.preventDefault()
+
+    axios.post('http://localhost:3001/users/login', {
+      username: this.state.username,
+      password: this.state.password
+    })
     .then(function (res) {
-      console.log(res)
+      this.login(res)
     })
     .catch(function (err) {
       console.log(err)
     })
-    event.preventDefault();
+  }
+
+  redirectUser = (path) => {  
+    this.props.history.push(path);
   }
   
   render() {

@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import './styles/App.css';
+import React, { Component } from 'react'
+import './styles/App.css'
+import './css/examples.scss'
 import {Grid, Row, Col } from 'react-bootstrap'
 
 import Header from './components/header'

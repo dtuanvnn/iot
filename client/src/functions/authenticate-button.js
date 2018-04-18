@@ -1,15 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
-import authenticate from './authenticate'
+import { isLoggedIn, Authenticate } from './authenticate'
 
 const AuthButton = withRouter(
   ({ history }) =>
-  authenticate.state ? (
+  isLoggedIn() ? (
       <p>
         Welcome!{" "}
         <button
           onClick={() => {
-            authenticate.signout(() => history.push("/"));
+            Authenticate.signout(() => history.push("/"));
           }}
         >
           Sign out

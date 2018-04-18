@@ -25,6 +25,12 @@
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*",
-    "uuid": "^3.2.1"
+    "uuid": "^3.2.1",
+    "react": "^16.3.1",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.3.1",
+    "react-router-bootstrap": "^0.24.4",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.4"
   }
 }
