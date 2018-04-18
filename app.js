@@ -13,10 +13,10 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/iot');
 var db = mongoose.connection;
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var devices = require('./routes/devices');
-var history = require('./routes/history');
+var indexs = require('./server/routes/index');
+var users = require('./server/routes/users');
+var devices = require('./server/routes/devices');
+var history = require('./server/routes/history');
 
 // Init App
 var app = express();
@@ -47,6 +47,12 @@ app.use(session({
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());
+
+const localStrategy = require('./server/passport/passport-local');
+const jwtStrategy = require('./server/passport/passport-jwt');
+
+passport.use('local', localStrategy);
+passport.use('jwt', jwtStrategy);
 
 // Express Validator
 app.use(expressValidator({
@@ -85,7 +91,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/', routes);
+app.use('/', indexs);
 app.use('/users', users);
 app.use('/devices', devices);
 app.use('/history', history);

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+export function isLoggedIn() {
+  return localStorage.getItem('token');
+}
+
 export default class authenticate extends Component {
     constructor(props) {
         super(props)

@@ -13,8 +13,6 @@ class Login extends Component {
   };
 
   login = (res) => {
-    console.log(res)
-
     localStorage.setItem('token', res.data.token)
     this.setState({redirectToReferrer: true})
   }
@@ -39,7 +37,7 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
-    axios.post('http://localhost:3001/users/login', {
+    axios.post('http://localhost:3001/login', {
       username: this.state.username,
       password: this.state.password
     })

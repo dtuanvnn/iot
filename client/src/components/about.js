@@ -19,8 +19,8 @@ class About extends Component {
     })
     .catch(err => {
       console.log(err)
-      //localStorage.removeItem('token')
-      //this.setState({ redirect: true })
+      localStorage.removeItem('token')
+      this.setState({ redirect: true })
     })
   }
 
