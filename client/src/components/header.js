@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Link } from 'react-router-dom'
+import RaisedButton from 'material-ui/RaisedButton';
 
 import logo from '../images/logo.svg';
 
@@ -21,8 +22,8 @@ class Header extends Component {
             </Navbar.Header>
             <Navbar.Collapse>
               <Nav pullRight>
-                <LinkContainer to="/login">
-                  <NavItem>Signup</NavItem>
+                <LinkContainer to="/logout">
+                  <RaisedButton label="Logout"></RaisedButton>
                 </LinkContainer>
                 <LinkContainer to="/login">
                   <NavItem>Login</NavItem>

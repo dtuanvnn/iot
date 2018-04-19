@@ -1,0 +1,320 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Projects/iot"
+	],
+	"file_history":
+	[
+		"/C/Projects/iot/sublimeproj",
+		"/C/Users/vnadmin/AppData/Roaming/Skype/DataRv/offline-storage.data",
+		"/C/Users/vnadmin/Tracing/WPPMedia/Skype_MediaStack-6.0.8968.179-releases_CL2016_R18-x86fre-U.etl",
+		"/C/Projects/login-component/demo-vue/bin/www",
+		"/C/Projects/login-component/demo-vue/routers/book.js",
+		"/C/Projects/login-component/demo-vue/package.json",
+		"/D/Dropbox/Dropbox/Projects/LoginApp/app.js",
+		"/C/Raven/commerce/MSBuild/APIChanges.targets",
+		"/C/Raven/commerce/MSBuild/BreakingChanges.targets",
+		"/D/Dropbox/Dropbox/Projects/LoginApp/package.json",
+		"/C/Raven/commerce/MSBuild/Setup.targets",
+		"/C/Raven/commerce/AssemblyVersionAuto.Personalization.cs",
+		"/C/Raven/commerce/AssemblyVersionAuto.cs",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/C/tmp/nodekb/users.metadata.json",
+		"/C/tmp/nodekb/articles.metadata.json",
+		"/C/tmp/nodekb/articles.bson",
+		"/D/Project/iot/index.html_url=354858",
+		"/C/Raven/commerce/MSBuild/Common/ConfigFiles/ApiChanges/packages.config",
+		"/C/Raven/commerce/.nuget/NuGet.Config",
+		"/C/Raven/commerce/Sources/EPiServer.Reference.Commerce.Site/connectionStrings.config",
+		"/C/Raven/commerce/Sources/EPiServer.Reference.Commerce.Site/packages.config",
+		"/C/Raven/commerce/packages/EPiServer.Commerce.Core.12.0.0-developerbuild/tools/epiupdates_commerce/sql/9.0.0.0.sql",
+		"/C/Users/datu/Downloads/gift_card.json",
+		"/C/Raven/commerce/packages/EPiServer.Commerce.Core.12.0.0-developerbuild/tools/epiupdates_commerce/sql/8.1.5.0.sql",
+		"/C/Users/datu/node-js-getting-started/Procfile",
+		"/C/Users/datu/Desktop/hanoipayroll.ep.se.har",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/9.0.0.0.sql",
+		"/C/Raven/commerce/packages/EPiServer.Commerce.Core.12.0.1-developerbuild/tools/epiupdates_commerce/sql/9.0.0.0.sql",
+		"/C/Raven/commerce/MSBuild/Tests.targets",
+		"/D/DocumentsEpi/VariationInventoryPricing.xml",
+		"/C/Users/datu/Downloads/Mapping_no_Model_09Jan.xml",
+		"/C/Raven/commerce/ECF/Mediachase.ConsoleManager/Properties/licenses.licx",
+		"/C/Raven/commerce/Automation/Automation.Performance.DataGeneration/bin/Debug/Licensing/Mediachase.EpiServer.lic",
+		"/C/Raven/commerce/MSBuild/Common/Content/Catalog.xml",
+		"/C/Raven/commerce/MSBuild/Common/Content/StarterDemoDepartmental/Catalog.xml",
+		"/C/Raven/commerce/MSBuild/Common/Content/StarterDemoB2CSite/epix.xml",
+		"/C/Raven/commerce/MSBuild/Common/Content/StarterDemoB2CSite/epiMedia.xml",
+		"/C/Raven/commerce/MSBuild/Common/Content/StarterDemoB2CSite/epiPostContent.xml",
+		"/C/Raven/commerce/MSBuild/Common/Content/StarterDemoB2CSite/idmap.xml",
+		"/C/Raven/commerce/MSBuild/Common/Content/StarterDemoB2CSite.episerverdata",
+		"/C/Raven/commerce/EPiServer.Commerce.Integration.Specs/bin/Debug/PerformanceResults/performanceResult.xml",
+		"/C/Raven/commerce/MSBuild/NuSpecs/EPiServer.Commerce.Core.nuspec.template",
+		"/C/Users/datu/AppData/Local/JetBrains/dotTrace/v5.5/UpdatesManager.xml",
+		"/C/Users/datu/AppData/Roaming/JetBrains/dotTrace/v5.5/History.xml",
+		"/C/Users/datu/AppData/Roaming/JetBrains/Shared/vAny/GlobalSettingsStorage.DotSettings",
+		"/C/Users/datu/AppData/Roaming/JetBrains/PermanentUserId",
+		"/C/Users/datu/AppData/Local/JetBrains/dotTrace/vAny/winpos.prm",
+		"/C/Raven/commerce/EPiServer.Business.Commerce/Order/Calculator/DefaultReturnOrderFormCalculator.cs",
+		"/C/Raven/commerce/ECF/Mediachase.Commerce/Orders/IReturnOrderFormCalculator.cs",
+		"/C/Raven/commerce/EPiServer.Commerce.Unit.Test/EPiServer.Business.Commerce/Order/Calculator/DefaultReturnOrderFormCalculatorTest.cs",
+		"/D/CMS/quicksilver/Quicksilver/Sources/AssemblyVersionAuto.cs",
+		"/C/Raven/commerce/ECF/Mediachase.Commerce/Orders/LineItem.cs",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/8.1.0.0.sql",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/8.0.14.0.sql",
+		"/C/Raven/commerce/MSBuild/ReferenceSite.targets",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/readme.txt",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/9.0.1.0.sql",
+		"/C/Raven/11/packages/EPiServer.Commerce.UI.12.0.0-developerbuild/EPiServer.Commerce.UI.12.0.0-developerbuild.nupkg",
+		"/C/Raven/commerce/MSBuild/Database.targets",
+		"/C/Raven/commerce/MSBuild/Common/bin/_PackagingTemp/NuSpecs/EPiServer.Commerce.Core.nuspec",
+		"/C/Raven/commerce/MSBuild/ReferenceSite/Release/Output/Sources/EPiServer.Reference.Commerce.Site/Configs/ecf.app.config",
+		"/C/Raven/commerce/packages/EPiServer.Commerce.Core.11.0.0/content/net452/Configs/ecf.app.config.install.xdt",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/Install.ps1",
+		"/C/Raven/commerce/MSBuild/Common/ConfigFiles/Configs/ecf.app.config",
+		"/C/Raven/commerce/MSBuild/Common/Temp/ConfigFiles/configs/ecf.app.config",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/ecf.app.config.install.xdt",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/webconfig-baseline.config",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/web.config.install.xdt",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce/web.config.install.xdt",
+		"/F/DCIM/leinfo.sav",
+		"/F/MISC/version.txt",
+		"/F/MISC/card",
+		"/C/Raven/commerce/Sources/EPiServer.Reference.Commerce.Manager/Configs/ecf.app.config",
+		"/C/Raven/commerce/MSBuild/Common/bin/_PackagingTemp/SharedResources/SharedResources/Configs/ecf.app.config",
+		"/C/Raven/commerce/Automation/Automation.Performance.DataGeneration/bin/Debug/Configs/ecf.app.config",
+		"/C/Raven/commerce/MSBuild/ReferenceSite/Release/Output/Sources/EPiServer.Reference.Commerce.Manager/Configs/ecf.app.config",
+		"/C/Raven/commerce/MSBuild/NuGetResources/Shared/Configs/ecf.app.config",
+		"/C/Raven/commerce/Sources/EPiServer.Reference.Commerce.Site/Configs/ecf.app.config",
+		"/C/Raven/commerce/EPiServer.Commerce.Sample/Configs/ecf.app.config",
+		"/C/Raven/commerce/ECF/Mediachase.ConsoleManager/Configs/ecf.app.config",
+		"/C/Raven/commerce/EPiServer.Commerce.Integration.Specs/Configs/ecf.app.config",
+		"/C/Raven/commerce/EPiServer.Commerce.Integration.Specs/bin/Debug/Configs/ecf.app.config",
+		"/C/Raven/commerce/MSBuild/Common/bin/_PackagingTemp/Resources/EPiServer.Commerce.Core/ecf.app.config.install.xdt",
+		"/C/Raven/commerce/MSBuild/PaymentProviders/xdt/TestProject/packages.config.xdt",
+		"/C/Users/datu/Desktop/Catalog.xml",
+		"/C/Raven/commerce/AssemblyVersionAuto.Perform.cs",
+		"/C/Raven/commerce/MSBuild/PaymentProviders/xdt/PaymentProject/EPiServer.Business.Commerce.Payment.DataCash.csproj.xdt",
+		"/C/Raven/commerce/Sources/appdata/SiteErrors.log",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/8.0.6.0.sql",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/8.0.7.0.sql",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/8.0.8.0.sql",
+		"/C/Raven/commerce/AssemblyVersionAuto.Recommendations.cs",
+		"/C/Users/datu/Downloads/CacheStats.aspx",
+		"/C/Raven/commerce/MSBuild/CommonImports.targets",
+		"/C/Raven/commerce/MSBuild/CreateSourceCodePackages.targets",
+		"/D/datu/Documents/encrypted",
+		"/D/datu/Documents/sha1sum.txt",
+		"/D/datu/Documents/PGPMIME version identification",
+		"/D/datu/Documents/encrypted.asc",
+		"/C/Users/datu/Pictures/Saved Pictures/G0179561.jpg.asc",
+		"/C/Users/datu/Desktop/Public_key",
+		"/D/datu/Documents/Untitled attachment 00315.dat",
+		"/C/Users/datu/Downloads/Campaign view.docx.gpg",
+		"/C/Users/datu/Downloads/facebook.asc",
+		"/C/Raven/commerce/MSBuild/CreateTranslations.targets",
+		"/C/Raven/commerce/MSBuild/ClientResources.targets",
+		"/C/Raven/commerce/MSBuild/BeforeSolutionBuild.targets",
+		"/C/Raven/commerce/MSBuild/Tasks.targets",
+		"/C/Raven/commerce/MSBuild/Validate.targets",
+		"/C/Raven/commerce/MSBuild/BasePaths.targets",
+		"/C/Users/datu/Pictures/feed.xml",
+		"/C/Users/datu/Documents/feed.xml",
+		"/C/Raven/commerce/Sources/appdata/SiteDebug.log",
+		"/C/Raven/commerce/Sources/EPiServer.Reference.Commerce.Site/EPiServer.Reference.Commerce.Site.csproj",
+		"/D/CMS/paymentproviders/readme.md",
+		"/D/CMS/paymentproviders/PaymentProviders.DIBS.Tests/PaymentProviders.DIBS.Tests.csproj",
+		"/D/CMS/paymentproviders/PaymentProviders.DataCash/PaymentProviders.DataCash.csproj",
+		"/D/CMS/paymentproviders/PaymentProviders.DIBS/PaymentProviders.DIBS.csproj",
+		"/D/CMS/paymentproviders/PaymentProviders.PayPal/PaymentProviders.PayPal.csproj",
+		"/D/CMS/paymentproviders/PaymentProviders.Nsoftware.PaymentGateway/Readme.md",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/8.0.1.0.sql",
+		"/C/Raven/commerce/MSBuild/NuSpecs/EPiServer.Recommendations.Commerce.nuspec.template",
+		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/8.0.0.0.sql",
+		"/C/Raven/commerce/MSBuild/ReferenceSite/Release/Output/Sources/EPiServer.Reference.Commerce.Site/EPiServer.Reference.Commerce.Site.csproj",
+		"/C/Raven/commerce/EPiServer.Recommendations/EPiServer.Recommendations.csproj",
+		"/C/Raven/commerce/EPiServer.Recommendations.Commerce/EPiServer.Recommendations.Commerce.csproj",
+		"/C/Raven/commerce/packages/EPiServer.CMS.UI.Core.10.10.0/content/net45/web.config.install.xdt"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "proj.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"_collect",
+				"epi-ecf-ui\\contentediting\\editors\\_CollectionEditorDndMixin.js"
+			],
+			[
+				"_cssstatemixin",
+				"dijit\\_CssStateMixin.js"
+			],
+			[
+				"tree",
+				"dijit\\Tree.js"
+			],
+			[
+				"contentre",
+				"epi-cms\\core\\ContentReference.js"
+			],
+			[
+				"discountlistmodel",
+				"epi-ecf-ui\\widget\\viewmodel\\DiscountListModel.js"
+			],
+			[
+				"discountpri",
+				"epi-ecf-ui\\component\\DiscountPriority.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 207.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
