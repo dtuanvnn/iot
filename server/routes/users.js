@@ -18,10 +18,10 @@ router.get('/', ensureAuthenticated, function(req, res){
 	});
 });
 
-router.get('/api', passport.authenticate('jwt', { session: false }), function(req, res){
+router.get('/api', /*passport.authenticate('jwt', { session: false }),*/ function(req, res){
 	User.getAllUser(function (err, users) {
 		if (err) throw err;
-		res.send(users)
+		res.send(JSON.stringify(users))
 	});
 });
 router.get('/api/detail', passport.authenticate('jwt', { session: false }), function(req, res) {
