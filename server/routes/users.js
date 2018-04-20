@@ -7,63 +7,161 @@ var jwt = require('jsonwebtoken');
 var User = require('../models/user');
 var Area = require('../models/area');
 var Device = require('../models/device');
+var Events = require('../models/event');
+var SensorData = require('../models/sensorData');
+var Admin = require('../models/admin');
+
 //var ensureAuthenticated = require('../functions/ensureAuthenticated')
 
-// List all users
-/* router.get('/', function(req, res){
-	User.getAllUser(function (err, users) {
-		if (err) throw err;
+// Admin API
+router.get('/checkAdmin', function(req, res){
+	if (req.session.isAdmin) {
+		return res.json("You are admin " + req.session.isAdmin)
+	}
+	if (!req.query.id) {
+		return res.sendStatus(404)
+	}
+	var userId = req.query.id
+	Admin
+	.findOne({'user':userId})
+	.select('-_id -user')
+	.exec(function(err, admin){
+		if (err) throw err
 
-		res.render('all-users', {
-			users: users
-		});
-	});
-}); */
+		if (!admin) {
+			res.sendStatus(403)
+		} else {
+			req.session.isAdmin = admin.type
+			res.json(admin)
+		}
+	})
+})
 
-router.get('/', /*passport.authenticate('jwt', { session: false }),*/ function(req, res){
-	User.find().select('name').exec(function (err, users) {
-		if (err) throw err;
-		res.send(JSON.stringify(users))
-	});
-});
+// SensorData API
+router.get('/sensordata', function(req, res){
+	var currentPage = req.query.page || 0;
+	var pageSize = 20
+	SensorData
+	.find()
+	.skip(pageSize*(Math.max(currentPage-1, 0)))
+	.limit(pageSize)
+	.select('-_class')
+	.exec(function(err, sensorDatas){
+		if (err) throw err
+		res.json(sensorDatas)
+	})
+})
+
+// Event API
+router.get('/event', function(req, res){
+	var currentPage = req.query.page || 0;
+	var pageSize = 20
+
+	Events
+	.find()
+	.skip(pageSize*(Math.max(currentPage-1, 0)))
+	.limit(pageSize)
+	.select('type utc')
+	.exec(function(err, events){
+		if (err) throw err
+		res.json(events)
+	})
+})
+router.get('/event/detail', function(req, res){
+	if (!req.query.id){
+		return res.sendStatus(404)
+	}
+	Events
+	.findOne({'_id': req.query.id})
+	.select('-_id -_class')
+	.populate('sensor', '-_id -_class -area')
+	.populate('area', 'name')
+	.populate('user', 'name')
+	.exec(function(err, event){
+		if (err) throw err
+		res.json(event)
+	})
+})
+
+// User API
+router.get('/user', function(req, res){
+	User
+	.find()
+	.select('name email phoneNumber status')
+	.exec(function(err, users){
+		if (err) throw err
+		res.json(users)
+	})
+})
+router.get('/user/detail', function(req, res){
+	if (!req.query.id){
+		return res.sendStatus(404)
+	}
+	User
+	.findOne({'_id': req.query.id})
+	.select('-password -_class -_id')
+	.exec(function(err, user){
+		if (err) throw err
+		res.json(user)
+	})
+})
+
+// Area API
 router.get('/area', function(req, res) {
-	Area.findById({'_id': 'bb81c242-10c6-408a-a8dc-80b6bc596044'})
-	.populate('user.id')
-	.exec(function(err, areas) {
+	Area.find().select('name').exec(function(err, areas){
+		if (err) throw err
 		res.json(areas)
 	})
 })
-router.get('/device', function(req, res) {
-	User.find().exec(function(err, users){
-		var area = new Area({
-			_id: uuidv4(),
-			user: users[0]._id
-		})
-		area.save(function(err, user){
-			if(err) throw err;
-			console.log(user);
-			res.json(area)
-		})
+router.get('/area/detail', function(req, res) {
+	if (!req.query.id){
+		return res.sendStatus(404)
+	}
+	Area
+	.findOne({'_id': req.query.id})
+	.select('-_id -_class')
+	.populate('gateway', '-_id -user -area -_class')
+	.populate('sensor', '-_id -user -area -_class')
+	.populate({
+		path:'control', 
+		select: '-_id -user -area -_class', 
+		populate : {
+			path : 'outputs', 
+			select: '-_id -_class'
+		}
+	})
+	.populate('user', '-_id name status')
+	.exec(function(err, area) {
+		if (err) throw err
+		res.json(area)
 	})
 })
-router.get('/detail', function(req, res) {
-	User.getUserByPhone(req.query.id, function(err, user){
+
+// Device API
+router.get('/device', function(req, res) {
+	Device
+	.find()
+	.exec(function(err, devices){
 		if (err) throw err;
-		res.send(user)
+		res.json(devices)
+	})
+})
+router.get('/device/detail', function(req, res) {
+	if (!req.query.id){
+		return res.sendStatus(404)
+	}
+	Device
+	.findOne({'_id':req.query.id})
+	.select('-_id -_class')
+	.populate('user', 'name')
+	.populate('area', 'name')
+	.populate('outputs', '-_id -_class -user -area -control')
+	.exec(function(err, device){
+		if (err) throw err;
+		res.json(device)
 	});
 })
 
-// Detail user
-/* router.get('/detail', function(req, res) {
-	User.getUserByPhone(req.query.id, function(err, user){
-		if (err) throw err;
-
-		res.render('user-detail', {
-			user: user
-		});
-	});
-})
- */
 // Register
 router.get('/register', passport.authenticate('jwt', { session: false }), function(req, res){
 	res.render('register');
@@ -105,7 +203,7 @@ router.post('/register', passport.authenticate('jwt', { session: false }), funct
 
 		req.flash('success_msg', 'You are registered and can now login');
 
-		res.redirect('/users/login');
+		res.redirect('/login');
 	}
 });
 
@@ -134,5 +232,68 @@ router.get('/logout', function(req, res){
 
 	res.redirect('/users/login');
 }); */
+
+/* router.get('/', function(req, res){
+	User.getAllUser(function (err, users) {
+		if (err) throw err;
+
+		res.render('all-users', {
+			users: users
+		});
+	});
+}); */
+
+/* router.get('/', passport.authenticate('jwt', { session: false }), function(req, res){
+	User.find().select('name').exec(function (err, users) {
+		if (err) throw err;
+		res.send(JSON.stringify(users))
+	});
+}); */
+
+/* router.get('/area', function(req, res) {
+	Area.find(function(err, areas) {
+		var promises = [];
+		areas.forEach(function(area){
+			var promises = [];
+			promises.push(new Promise(function(resolve, reject){
+				User.findById({'_id':area.user.oid}, {'name':1, 'email':1}, function(err, data){
+					resolve(data)
+				})
+			}))
+			promises.push(new Promise(function(resolve, reject){
+				Device.findById({'_id':area.gateway.oid}, {'name':1 }, function(err, data){
+					resolve(data)
+				})
+			}))
+			promises.push(new Promise(function(resolve, reject){
+				User.findById({'_id':area.sensor.oid}, {'name':1 }, function(err, data){
+					resolve(data)
+				})
+			}))
+			promises.push(new Promise(function(resolve, reject){
+				User.findById({'_id':area.control.oid}, {'name':1 }, function(err, data){
+					resolve(data)
+				})
+			}))
+
+			Promise.all(promises).then(function(data){
+				return 
+			})
+		})
+		Promise.all().then(function(data){res.json(data)})
+	})
+}) */
+
+// Detail user
+/* router.get('/detail', function(req, res) {
+	User.getUserByPhone(req.query.id, function(err, user){
+		if (err) throw err;
+
+		res.render('user-detail', {
+			user: user
+		});
+	});
+})
+ */
 
 module.exports = router;

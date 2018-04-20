@@ -23,14 +23,21 @@ var DeviceSchema = mongoose.Schema({
 	relay: {
 		type: Number
 	},
-	user: Object,
+	outputs: [{
+		ref: 'Device',
+		type: String
+	}],
+	user: {
+		ref: 'User',
+		type: String
+	},
 	control: {
 		ref: 'Device',
-		type: Object
+		type: String
 	},
 	area: {
 		ref: 'Area',
-		type: Object
+		type: String
 	}
 });
 

@@ -38,11 +38,17 @@ router.post('/login', function (req, res, next) {
 
 router.get('/logout', function(req, res){
 	config.generateKey()
-	req.logout();
+	req.logout()
+	req.flash('success_msg', 'You are logged out')
+	delete req.session.isAdmin
+	res.redirect('/login')
+});
 
-	req.flash('success_msg', 'You are logged out');
-
-	res.redirect('/login');
+router.get('/api/logout', function(req, res){
+	config.generateKey()
+	req.logout()
+	delete req.session.isAdmin
+	res.sendStatus(200)
 });
 
 // Get Homepage

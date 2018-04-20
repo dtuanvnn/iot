@@ -21,12 +21,15 @@ var SettingSchema = mongoose.Schema({
 		type: Object
   },
   area: {
+		ref: 'Area',
 		type: String
 	},
   gateway: {
+		ref: 'Device',
 		type: String
 	},
 	user: {
+		ref: 'User',
 		type: String
 	}
 });

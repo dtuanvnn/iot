@@ -7,10 +7,11 @@ var UserSchema = module.exports = mongoose.Schema({
 	name: String,
 	email: String,
 	phoneNumber: String,
+	password: String,
 	city: String,
 	district: String,
 	ward: String,
-	lastAccess: Number,
+	lastAccess: Date,
 	status: Number,
 	avatar: String
 });

@@ -2,46 +2,18 @@ var mongoose = require('mongoose');
 
 // Sensor Data Schema
 var SensorDataSchema = mongoose.Schema({
-	_id: {
-		type: String
-	},
-	_class: {
-		type: String
-	},
-	airTemp: {
-		type: Number
-	},
-	airHum: {
-		type: Number
-	},
-	soilTemp: {
-		type: Number
-	},
-	soilHum: {
-		type: Number
-	},
-	elecNeg: {
-		type: Number
-	},
-	utc: {
-		type: Number
-	},
+	_id: String,
+	_class: String,
+	airTemp: Number,
+	airHum: Number,
+	soilTemp: Number,
+	soilHum: Number,
+	elecNeg: Number,
+	utc: Date,
 	area: {
-		type: String
+		ref: 'Area',
+		type: Object
 	}
 });
 
-var SensorData = module.exports = mongoose.model('SensorData', SensorDataSchema, 'sensorDatas');
-
-module.exports.getSensorsByAreaId = function(areaId, callback){
-    var query = {"area.$id": areaId};
-    SensorData.find(query, callback);
-}
-
-module.exports.getSensorDataById = function(id, callback){
-	SensorData.findById(id, callback);
-}
-
-module.exports.getSensorDatas = function(callback) {
-	SensorData.find(callback);
-}
+var SensorData = module.exports = mongoose.model('SensorData', SensorDataSchema, 'sensorDatas')
