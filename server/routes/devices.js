@@ -24,7 +24,7 @@ Handlebars.registerHelper("case", function(value, options) {
 
 
 // List all devices of user id
-router.get('/', ensureAuthenticated, function(req, res){
+router.get('/', function(req, res){
   var userId = req.query.id
   if (userId) {
     User.getUserById(userId, function(err, user) {
@@ -56,10 +56,7 @@ router.get('/detail', function(req, res) {
   var deviceId = req.query.id
 	Device.getDeviceById(deviceId, function(err, device){
 		if (err) throw err;
-
-		res.render('device-detail', {
-			device: device
-		});
+		res.send(JSON.stringify(device))
 	});
 })
 

@@ -17,18 +17,24 @@ var DeviceSchema = mongoose.Schema({
 	code: {
 		type: String
 	},
-	user: {
-		type: Object
-	},
 	enable: {
 		type: Number
 	},
 	relay: {
 		type: Number
+	},
+	user: Object,
+	control: {
+		ref: 'Device',
+		type: Object
+	},
+	area: {
+		ref: 'Area',
+		type: Object
 	}
 });
 
-var Device = module.exports = mongoose.model('Device', DeviceSchema);
+var Device = module.exports = mongoose.model('Device', DeviceSchema, 'devices');
 
 module.exports.getDevicesByUserId = function(userId, callback){
     var query = {"user.$id": userId};

@@ -5,10 +5,12 @@ var uuidv4 = require('uuid/v4');
 var jwt = require('jsonwebtoken');
 
 var User = require('../models/user');
-var ensureAuthenticated = require('../functions/ensureAuthenticated')
+var Area = require('../models/area');
+var Device = require('../models/device');
+//var ensureAuthenticated = require('../functions/ensureAuthenticated')
 
 // List all users
-router.get('/', ensureAuthenticated, function(req, res){
+/* router.get('/', function(req, res){
 	User.getAllUser(function (err, users) {
 		if (err) throw err;
 
@@ -16,15 +18,35 @@ router.get('/', ensureAuthenticated, function(req, res){
 			users: users
 		});
 	});
-});
+}); */
 
-router.get('/api', /*passport.authenticate('jwt', { session: false }),*/ function(req, res){
-	User.getAllUser(function (err, users) {
+router.get('/', /*passport.authenticate('jwt', { session: false }),*/ function(req, res){
+	User.find().select('name').exec(function (err, users) {
 		if (err) throw err;
 		res.send(JSON.stringify(users))
 	});
 });
-router.get('/api/detail', passport.authenticate('jwt', { session: false }), function(req, res) {
+router.get('/area', function(req, res) {
+	Area.findById({'_id': 'bb81c242-10c6-408a-a8dc-80b6bc596044'})
+	.populate('user.id')
+	.exec(function(err, areas) {
+		res.json(areas)
+	})
+})
+router.get('/device', function(req, res) {
+	User.find().exec(function(err, users){
+		var area = new Area({
+			_id: uuidv4(),
+			user: users[0]._id
+		})
+		area.save(function(err, user){
+			if(err) throw err;
+			console.log(user);
+			res.json(area)
+		})
+	})
+})
+router.get('/detail', function(req, res) {
 	User.getUserByPhone(req.query.id, function(err, user){
 		if (err) throw err;
 		res.send(user)
@@ -32,7 +54,7 @@ router.get('/api/detail', passport.authenticate('jwt', { session: false }), func
 })
 
 // Detail user
-router.get('/detail', function(req, res) {
+/* router.get('/detail', function(req, res) {
 	User.getUserByPhone(req.query.id, function(err, user){
 		if (err) throw err;
 
@@ -41,7 +63,7 @@ router.get('/detail', function(req, res) {
 		});
 	});
 })
-
+ */
 // Register
 router.get('/register', passport.authenticate('jwt', { session: false }), function(req, res){
 	res.render('register');
