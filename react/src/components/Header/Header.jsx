@@ -35,7 +35,7 @@ function Header({ ...props }) {
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
-          <Button href="#" className={classes.title}>
+          <Button className={classes.title}>
             {makeBrand()}
           </Button>
         </div>

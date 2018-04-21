@@ -83,4 +83,9 @@ router.get('/', passport.authenticate('jwt'), function(req, res){
 	res.render('index');
 });
 
+router.get('/isValidToken', passport.authenticate('jwt', { session: false }), function (req, res) {
+	console.log('OK, token is valid')
+	res.sendStatus(200)
+})
+
 module.exports = router;

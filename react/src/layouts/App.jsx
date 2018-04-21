@@ -1,19 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
-
 import { Header, Footer, Sidebar } from "components";
-
 import appRoutes from "routes/app.jsx"
-
 import appStyle from "assets/jss/material-dashboard-react/appStyle.jsx";
-
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
+import PrivateRoute from "../routes/private-route";
 
 const switchRoutes = (
   <Switch>
@@ -21,7 +18,7 @@ const switchRoutes = (
       if (prop.redirect) {
         return <Redirect from={prop.path} to={prop.pathTo} key={key} />
       }
-      return <Route path={prop.path} component={prop.component} key={key} />
+      return <PrivateRoute path={prop.path} component={prop.component} key={key} />
     })}
   </Switch>
 )

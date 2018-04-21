@@ -12,10 +12,11 @@ class Lists extends React.Component {
   }
 
   componentDidMount() {
-  	callApi('users/api').then(response => {
-  		var data = response.map(user => Object.keys(user).map(function(key) {
-  			return user[key]
-  		}))
+  	callApi('api/user').then(res => {
+  		var data = res.map(user => Object.keys(user).map(function(key) {
+        return user[key]
+      }))
+      var users = data.map(val => val.shift())
   		this.setState({users: data})
   	})
   }

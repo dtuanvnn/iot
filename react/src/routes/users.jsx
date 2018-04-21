@@ -1,36 +1,27 @@
 import IndexPage from "views/Index/Index.jsx";
 import UserProfilePage from "views/User/Profile.jsx";
-import User from "layouts/User.jsx";
+import UserListPage from "views/User/Lists.jsx";
 
 // @material-ui/icons
 import { Dashboard, PermIdentity } from "@material-ui/icons"
 
 const appRoutes = [
   {
-    path: "/home",
-    sidebarName: "Home Page",
-    navbarName: "IOT Home Page",
+    path: "/user/list",
+    navbarName: "IOT User List",
     icon: Dashboard,
-    component: IndexPage
+    component: UserListPage
   },
   {
-    path: "/profile",
-    sidebarName: "User Profile",
+    path: "/user/profile",
     navbarName: "IOT User Profile",
     icon: PermIdentity,
     component: UserProfilePage
   },
   {
-    path: "/user",
-    sidebarName: "Users List",
-    navbarName: "IOT Users List",
-    icon: PermIdentity,
-    component: User
-  },
-  {
     redirect: true,
-    path: "/",
-    pathTo: "/home"
+    path: "/user",
+    pathTo: "/user/list"
   }
 ]
 

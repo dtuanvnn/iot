@@ -2,6 +2,9 @@ import React from "react";
 import { Grid } from "material-ui";
 
 import { RegularCard, Table, ItemGrid } from "components";
+import { Switch, BrowserRouter, Route } from 'react-router-dom'
+
+import Profile from "views/User/Profile"
 
 function UserList({ ...props }) {
 	const {
@@ -17,7 +20,7 @@ function UserList({ ...props }) {
           content={
             <Table
               tableHeaderColor="primary"
-              tableHead={["Name", "Email", "Phone Number", "City", "Last Access"]}
+              tableHead={["Name", "Email", "Phone Number", "Last Access"]}
               tableData={users}
             />
           }

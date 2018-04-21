@@ -87,7 +87,7 @@ router.get('/event/detail', function(req, res){
 router.get('/user', function(req, res){
 	User
 	.find()
-	.select('name email phoneNumber status')
+	.select('name email phoneNumber lastAccess')
 	.exec(function(err, users){
 		if (err) throw err
 		res.json(users)
@@ -201,11 +201,6 @@ router.post('/register', passport.authenticate('jwt', { session: false }), funct
 		res.redirect('/login');
 	}
 });
-
-router.get('/islogged', passport.authenticate('jwt', { session: false }), function (req, res) {
-	console.log('OK')
-	res.sendStatus(200)
-})
 
 /*
 router.post('/login', function (req, res, next) {
