@@ -92,7 +92,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', indexs);
-app.use('/users', users);
+app.use('/api', users);
 app.use('/devices', devices);
 app.use('/history', history);
 

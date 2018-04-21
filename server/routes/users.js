@@ -162,11 +162,6 @@ router.get('/device/detail', function(req, res) {
 	});
 })
 
-// Register
-router.get('/register', passport.authenticate('jwt', { session: false }), function(req, res){
-	res.render('register');
-});
-
 // Register User
 router.post('/register', passport.authenticate('jwt', { session: false }), function(req, res){
 	var name = req.body.name;

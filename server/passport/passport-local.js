@@ -8,7 +8,6 @@ module.exports = new LocalStrategy(
    	if(!user){
    		return done(null, false, {message: 'Unknown User'});
    	}
-    console.log('user: '+ user)
     User.comparePassword(password, user.password, function(err, isMatch){
       if(err) throw err;
       if(isMatch){
