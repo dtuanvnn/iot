@@ -7,6 +7,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "server/routes/devices.js",
+			"settings":
+			{
+				"buffer_size": 1549,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -40,10 +48,16 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Projects/iot"
+		"/C/Projects/iot",
+		"/C/Projects/iot/react",
+		"/C/Projects/iot/server",
+		"/C/Projects/iot/server/functions",
+		"/C/Projects/iot/server/models",
+		"/C/Projects/iot/server/routes"
 	],
 	"file_history":
 	[
+		"/C/Projects/iot/.env",
 		"/C/Projects/iot/sublimeproj",
 		"/C/Users/vnadmin/AppData/Roaming/Skype/DataRv/offline-storage.data",
 		"/C/Users/vnadmin/Tracing/WPPMedia/Skype_MediaStack-6.0.8968.179-releases_CL2016_R18-x86fre-U.etl",
@@ -170,8 +184,7 @@
 		"/C/Raven/commerce/MSBuild/NuGetResources/EPiServer.Commerce.Core/epiupdates_commerce/sql/8.0.0.0.sql",
 		"/C/Raven/commerce/MSBuild/ReferenceSite/Release/Output/Sources/EPiServer.Reference.Commerce.Site/EPiServer.Reference.Commerce.Site.csproj",
 		"/C/Raven/commerce/EPiServer.Recommendations/EPiServer.Recommendations.csproj",
-		"/C/Raven/commerce/EPiServer.Recommendations.Commerce/EPiServer.Recommendations.Commerce.csproj",
-		"/C/Raven/commerce/packages/EPiServer.CMS.UI.Core.10.10.0/content/net45/web.config.install.xdt"
+		"/C/Raven/commerce/EPiServer.Recommendations.Commerce/EPiServer.Recommendations.Commerce.csproj"
 	],
 	"find":
 	{
@@ -206,8 +219,39 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "server/routes/devices.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1549,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								699,
+								699
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 150.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],

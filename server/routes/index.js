@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var User = require('../models/user');
+var Admin = require('../models/admin');
 var passport = require('passport');
 var jwt = require('jsonwebtoken');
 const config = require('../config');
@@ -31,6 +32,19 @@ router.post('/login', function (req, res, next) {
 			if (err) return err
 			var payload = {id: user._id, expiresInMinutes: 60};
 			var token = jwt.sign(payload, config.getJWTKey())
+
+			Admin
+			.findOne({'user':user._id})
+			.select('-_id -user')
+			.exec(function(err, admin){
+				if (err) throw err
+				if (!admin) {
+					req.session.isAdmin = -1
+				} else {
+					req.session.isAdmin = admin.type
+				}
+			})
+
 			return res.json({message: "ok", token: token});
 		})
 	}) (req, res, next)
