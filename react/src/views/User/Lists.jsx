@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
-
-import UserList from "views/User/UserList";
+import { Grid } from "material-ui";
+import { RegularCard, Table, ItemGrid } from "components";
 import callApi from 'util/apiCaller'
 
 class Lists extends React.Component {
@@ -24,7 +24,23 @@ class Lists extends React.Component {
   render() {
   	const {users} = this.state
     return (
-    	<UserList users={users} />
+    	<div>
+    <Grid>
+	    <ItemGrid xs={12} sm={12} md={12}>
+        <RegularCard
+          cardTitle="Simple Table"
+          cardSubtitle="Here is a subtitle for this table"
+          content={
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["Name", "Email", "Phone Number", "Last Access"]}
+              tableData={users}
+            />
+          }
+        />
+      </ItemGrid>
+    </Grid>
+    </div>
     )
 	}
 }

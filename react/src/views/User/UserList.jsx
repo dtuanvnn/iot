@@ -1,17 +1,30 @@
-import React from "react";
+import React, { PropTypes, Component } from 'react';
 import { Grid } from "material-ui";
-
 import { RegularCard, Table, ItemGrid } from "components";
-import { Switch, BrowserRouter, Route } from 'react-router-dom'
+import callApi from 'util/apiCaller'
 
-import Profile from "views/User/Profile"
+class UserList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: []
+    };
+  }
 
-function UserList({ ...props }) {
-	const {
-    users
-  } = props;
-	return (
-		<div>
+  componentDidMount() {
+  	callApi('api/user').then(res => {
+  		var data = res.map(user => Object.keys(user).map(function(key) {
+        return user[key]
+      }))
+      var users = data.map(val => val.shift())
+  		this.setState({users: data})
+  	})
+  }
+  
+  render() {
+  	const {users} = this.state
+    return (
+    	<div>
     <Grid>
 	    <ItemGrid xs={12} sm={12} md={12}>
         <RegularCard
@@ -28,7 +41,8 @@ function UserList({ ...props }) {
       </ItemGrid>
     </Grid>
     </div>
-  )
+    )
+	}
 }
 
 export default UserList;

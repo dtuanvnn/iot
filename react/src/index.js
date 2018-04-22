@@ -2,6 +2,8 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import "assets/css/material-dashboard-react.css?v=1.2.0"
+import "assets/css/material-dashboard-pro-react.css?v=1.2.1"
+
 import indexRoutes from "routes/index.jsx"
 
 ReactDOM.render(
