@@ -9,30 +9,84 @@ import {
   Grow,
   Paper,
   ClickAwayListener,
-  Hidden
+  Hidden,
+  Tooltip
 } from "material-ui";
 import { Person, Notifications, Dashboard, Search } from "@material-ui/icons";
 
 import { CustomInput, IconButton as SearchButton } from "components";
+import SweetAlert from "react-bootstrap-sweetalert";
+import { Redirect } from "react-router-dom"
 
 import headerLinksStyle from "assets/jss/material-dashboard-react/headerLinksStyle";
 
 class HeaderLinks extends React.Component {
-  state = {
-    open: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      dashboard: false,
+      logout: false,
+      alert: null
+    }
+    this.successAlert = this.successAlert.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
+  }
   handleClick = () => {
     this.setState({ open: !this.state.open });
   };
 
   handleClose = () => {
     this.setState({ open: false });
-  };
+  }
+  handleDashboad = () => {
+    this.setState({ dashboard: true });
+  }
+  handleLogout = () => {
+    localStorage.clear()
+    this.setState({ logout: true });
+  }
+  successAlert = () => {
+    this.setState({
+      alert: (
+        <SweetAlert
+          success
+          style={{ display: "block", marginTop: "-100px" }}
+          title="You logged out"
+          onConfirm={() => this.hideAlert()}
+          onCancel={() => this.hideAlert()}
+          confirmBtnCssClass={
+            this.props.classes.button + " " + this.props.classes.success
+          }
+          onConfirm={this.handleLogout}
+        >
+          Click on the button to redirect to login page.
+        </SweetAlert>
+      )
+    })
+  }
+  hideAlert() {
+    this.setState({
+      alert: null
+    });
+  }
+  componentWillMount = () => {
+    this.setState({dashboard: false, logout: false})
+  }
   render() {
     const { classes } = this.props;
-    const { open } = this.state;
+    const { open, dashboard, alert, logout } = this.state;
+    if (dashboard) {
+      this.setState({dashboard: false})
+      return <Redirect to={"/home"} />
+    }
+    if (logout) {
+      this.setState({logout: false})
+      return <Redirect to={"/pages/login"} />
+    }
     return (
       <div>
+        {alert}
         <CustomInput
           formControlProps={{
             className: classes.margin + " " + classes.search
@@ -51,16 +105,24 @@ class HeaderLinks extends React.Component {
         >
           <Search className={classes.searchIcon} />
         </SearchButton>
-        <IconButton
-          color="inherit"
-          aria-label="Dashboard"
-          className={classes.buttonLink}
+        <Tooltip
+          id="tooltip-top"
+          title="Dashboard"
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          <Dashboard className={classes.links} />
-          <Hidden mdUp>
-            <p className={classes.linkText}>Dashboard</p>
-          </Hidden>
-        </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="Dashboard"
+            className={classes.buttonLink}
+            onClick={this.handleDashboad}
+          >
+            <Dashboard className={classes.links} />
+            <Hidden mdUp>
+              <p className={classes.linkText}>Dashboard</p>
+            </Hidden>
+          </IconButton>
+        </Tooltip>
         <Manager style={{ display: "inline-block" }}>
           <Target>
             <IconButton
@@ -133,16 +195,24 @@ class HeaderLinks extends React.Component {
             </ClickAwayListener>
           </Popper>
         </Manager>
-        <IconButton
-          color="inherit"
-          aria-label="Person"
-          className={classes.buttonLink}
+        <Tooltip
+          id="tooltip-top"
+          title="Logout"
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          <Person className={classes.links} />
-          <Hidden mdUp>
-            <p className={classes.linkText}>Profile</p>
-          </Hidden>
-        </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="Person"
+            className={classes.buttonLink}
+            onClick={this.successAlert}
+          >
+            <Person className={classes.links} />
+            <Hidden mdUp>
+              <p className={classes.linkText}>Profile</p>
+            </Hidden>
+          </IconButton>
+        </Tooltip>
       </div>
     );
   }

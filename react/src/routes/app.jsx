@@ -2,7 +2,7 @@ import IndexPage from "views/Index/Index.jsx";
 import UserProfilePage from "views/User/Profile.jsx";
 import UserReactPage from "views/User/ReactUser.jsx";
 import UserListPage from "views/User/Lists.jsx";
-
+import DeviceListPage from "views/Device/List.jsx"
 // @material-ui/icons
 import { Dashboard, PermIdentity } from "@material-ui/icons"
 
@@ -15,13 +15,6 @@ const appRoutes = [
     component: IndexPage
   },
   {
-    path: "/profile",
-    name: "User Profile",
-    navbarName: "IOT User Profile",
-    icon: PermIdentity,
-    component: UserProfilePage
-  },
-  {
     collapse: true,
     state: "openUsers",
     path: "/users",
@@ -29,17 +22,17 @@ const appRoutes = [
     navbarName: "IOT Users",
     icon: PermIdentity,
     views: [
-      {
+      /* {
         path: "/users/list",
         name: "User List",
         navbarName: "User List",
         mini: "UL",
         component: UserListPage
-      },
+      }, */
       {
         path: "/users/react",
-        name: "User React Table",
-        navbarName: "User React Table",
+        name: "User List",
+        navbarName: "User List",
         mini: "UP",
         component: UserReactPage
       },
@@ -51,6 +44,13 @@ const appRoutes = [
         component: UserProfilePage
       }
     ]
+  },
+  {
+    path: "/devices",
+    name: "Devices",
+    navbarName: "IOT Devices",
+    icon: PermIdentity,
+    component: DeviceListPage
   },
   {
     redirect: true,

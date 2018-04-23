@@ -19,10 +19,11 @@ const tasksCardStyle = theme => ({
     ...primaryBoxShadow
   },
   cardTitle: {
+    maxWidth: "100px",
     ...defaultFont,
     float: "left",
     fontWeight: "500",
-    padding: "10px 10px 10px 0",
+    // padding: "10px 10px 10px 0",
     lineHeight: "24px",
     fontSize: "14px",
     color: "#FFFFFF"
@@ -60,6 +61,9 @@ const tasksCardStyle = theme => ({
       display: "grid"
     }
   },
+  root: {
+    minWidth: "70px"
+  },
   tabs: {
     width: "110px",
     minWidth: "70px",
@@ -67,6 +71,10 @@ const tasksCardStyle = theme => ({
   },
   cardHeaderContent: {
     flex: "none"
+  },
+  labelContainer: {
+    paddingLeft: "12px",
+    paddingRight: "12px"
   },
   label: {
     lineHeight: "19px",

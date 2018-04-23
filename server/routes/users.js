@@ -93,6 +93,18 @@ router.get('/user', function(req, res){
 		res.json(users)
 	})
 })
+router.get('/user/filter', function(req, res){
+	if (!req.query){
+		return res.sendStatus(404)
+	}
+	User
+	.find()
+	.distinct(req.query.id)
+	.exec(function(err, users){
+		if (err) throw err
+		res.json(users)
+	})
+})
 router.get('/user/detail', function(req, res){
 	if (!req.query.id){
 		return res.sendStatus(404)
@@ -138,13 +150,30 @@ router.get('/area/detail', function(req, res) {
 })
 
 // Device API
-router.get('/device', function(req, res) {
+/* router.get('/device', function(req, res) {
 	Device
 	.find()
 	.exec(function(err, devices){
 		if (err) throw err;
 		res.json(devices)
 	})
+}) */
+router.get('/device', function(req, res) {
+	if (!req.query.id){
+		Device
+		.find()
+		.exec(function(err, devices){
+			if (err) throw err;
+			res.json(devices)
+		})
+	} else {
+		Device
+		.find({'user.$id': req.query.id})
+		.exec(function(err, devices){
+			if (err) throw err;
+			res.json(devices)
+		})
+	}
 })
 router.get('/device/detail', function(req, res) {
 	if (!req.query.id){

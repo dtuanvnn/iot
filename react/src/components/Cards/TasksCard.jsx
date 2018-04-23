@@ -9,11 +9,8 @@ import {
   Tabs,
   Tab
 } from "material-ui";
-import { BugReport, Code, Cloud } from "@material-ui/icons";
 
-import { Tasks } from "components";
-
-import { bugs, website, server } from "variables/general";
+import { Tasks, Table } from "components";
 
 import tasksCardStyle from "assets/jss/material-dashboard-react/tasksCardStyle";
 
@@ -34,7 +31,7 @@ class TasksCard extends React.Component {
             title: classes.cardTitle,
             content: classes.cardHeaderContent
           }}
-          title="Tasks:"
+          title="Filter user login:"
           action={
             <Tabs
               classes={{
@@ -47,64 +44,71 @@ class TasksCard extends React.Component {
             >
               <Tab
                 classes={{
+                  root: classes.root,
                   wrapper: classes.tabWrapper,
-                  labelIcon: classes.labelIcon,
+                  // labelIcon: classes.labelIcon,
                   label: classes.label,
                   textColorInheritSelected: classes.textColorInheritSelected
                 }}
-                icon={<BugReport className={classes.tabIcon} />}
-                label={"Bugs"}
+                // icon={<BugReport className={classes.tabIcon} />}
+                label={"24 hours"}
               />
               <Tab
                 classes={{
+                  root: classes.root,
                   wrapper: classes.tabWrapper,
-                  labelIcon: classes.labelIcon,
+                  // labelIcon: classes.labelIcon,
                   label: classes.label,
                   textColorInheritSelected: classes.textColorInheritSelected
                 }}
-                icon={<Code className={classes.tabIcon} />}
-                label={"Website"}
+                // icon={<Code className={classes.tabIcon} />}
+                label={"48 hours"}
               />
               <Tab
                 classes={{
+                  root: classes.root,
                   wrapper: classes.tabWrapper,
-                  labelIcon: classes.labelIcon,
+                  // labelIcon: classes.labelIcon,
                   label: classes.label,
                   textColorInheritSelected: classes.textColorInheritSelected
                 }}
-                icon={<Cloud className={classes.tabIcon} />}
-                label={"Server"}
+                // icon={<Cloud className={classes.tabIcon} />}
+                label={"1 week"}
               />
             </Tabs>
           }
         />
         <CardContent>
           {this.state.value === 0 && (
-            <Typography component="div">
-              <Tasks
-                checkedIndexes={[0, 3]}
-                tasksIndexes={[0, 1, 2, 3]}
-                tasks={bugs}
-              />
-            </Typography>
+            <Table
+              tableHeaderColor="warning"
+              tableHead={["ID", "Name", "Salary", "Country"]}
+              tableData={[
+                ["1", "Dakota Rice", "$36,738", "Niger"],
+                ["2", "Minerva Hooper", "$23,789", "Curaçao"],
+                ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
+                ["4", "Philip Chaney", "$38,735", "Korea, South"]
+              ]}
+            />
           )}
           {this.state.value === 1 && (
-            <Typography component="div">
-              <Tasks
-                checkedIndexes={[0]}
-                tasksIndexes={[0, 1]}
-                tasks={website}
-              />
-            </Typography>
+            <Table
+              tableHeaderColor="warning"
+              tableHead={["ID", "Name", "Salary", "Country"]}
+              tableData={[
+                ["1", "Dakota Rice", "$36,738", "Niger"],
+                ["2", "Minerva Hooper", "$23,789", "Curaçao"],
+                ["4", "Philip Chaney", "$38,735", "Korea, South"]
+              ]}
+            />
           )}
           {this.state.value === 2 && (
-            <Typography component="div">
-              <Tasks
-                checkedIndexes={[1]}
-                tasksIndexes={[0, 1, 2]}
-                tasks={server}
-              />
-            </Typography>
+            <Table
+              tableHeaderColor="warning"
+              tableHead={["ID", "Name", "Salary", "Country"]}
+              tableData={[
+              ]}
+            />
           )}
         </CardContent>
       </Card>

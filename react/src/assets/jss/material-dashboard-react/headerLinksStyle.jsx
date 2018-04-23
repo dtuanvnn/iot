@@ -7,9 +7,14 @@ import {
   dangerColor,
   primaryColor,
   primaryBoxShadow
-} from "assets/jss/material-dashboard-react.jsx";
+} from "assets/jss/material-dashboard-react.jsx"
+
+import { tooltip } from "assets/jss/material-dashboard-pro-react.jsx"
+import buttonStyle from "assets/jss/material-dashboard-react/buttonStyle.jsx"
 
 const headerLinksStyle = theme => ({
+  ...buttonStyle,
+  ...tooltip,
   popperClose: {
     pointerEvents: "none"
   },

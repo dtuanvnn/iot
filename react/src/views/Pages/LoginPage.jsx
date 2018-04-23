@@ -32,6 +32,7 @@ class LoginPage extends React.Component {
   }
   login = (res) => {
     localStorage.setItem('token', res.data.token)
+    localStorage.setItem('userid', res.data.userid)
     this.setState({redirectToReferrer: true})
   }
   validateForm() {

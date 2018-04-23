@@ -55,7 +55,7 @@ router.post('/login', function (req, res, next) {
 				} else {
 					req.session.isAdmin = admin.type
 				}
-				return res.json({message: "ok", token: token});
+				return res.json({message: "ok", token: token, userid: user._id});
 			})
 		})
 	}) (req, res, next)
