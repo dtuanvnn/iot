@@ -21,37 +21,31 @@ class ReactTables extends React.Component{
     super(props);
     this.state = {
       users: [],
-      city:[],
+      cities:[],
+      districts:[],
       redirect: false,
-      simpleSelect: 0
+      city: "",
+      district: ""
     }
     this.setRedirect = this.setRedirect.bind(this)
-    this.selectNode = this.selectNode.bind(this)
+    this.handleSimple = this.handleSimple.bind(this)
+    this.fetchUsers = this.fetchUsers.bind(this)
   }
   setRedirect = (key) => {
     this.setState({redirect: key})
   }
-  handleSimple = () => {
-
-  }
-  selectNode = (value, name) => {
-    return (
-      <MenuItem
-        classes={{
-          root: this.props.classes.selectMenuItem,
-          selected: this.props.classes.selectMenuItemSelected
-        }}
-        value={value}
-      >
-        {name}
-      </MenuItem>
-    )
-  }
-  componentDidMount() {
-    callApi('api/user/filter?id=city').then(res => {
-  		this.setState({city: res})
+  handleSimple = event => {
+    this.setState({[event.target.name]: event.target.value}, () => {
+      this.fetchUsers()
     })
-  	callApi('api/user').then(res => {
+  }
+  fetchUsers = () => {
+    let cityValue =  this.state.city === "" ? "" : this.state.cities[this.state.city]
+    let districtValue =  this.state.district === "" ? "" : this.state.districts[this.state.district]
+    let params = ""
+    params += "?city=" + cityValue
+    params += "&district=" + districtValue
+    callApi('api/user' + params).then(res => {
   		var data = res.map((user,key) => {
         user['actions'] = (
           <div className="actions-right">
@@ -75,9 +69,18 @@ class ReactTables extends React.Component{
   		this.setState({users: data})
   	})
   }
+  componentDidMount() {
+    callApi('api/user/filter?id=city').then(res => {
+  		this.setState({cities: res})
+    })
+    callApi('api/user/filter?id=district').then(res => {
+  		this.setState({districts: res})
+    })
+  	this.fetchUsers()
+  }
   render(){
     const { classes } = this.props;
-    const {users, city, redirect, simpleSelect} = this.state
+    const {users, cities, districts, redirect, city, district} = this.state
     if (redirect) {
       let url = "/users/" + redirect
       return <Redirect to={url} />
@@ -90,35 +93,70 @@ class ReactTables extends React.Component{
             title="User list"
             content={
               <div>
-                <ItemGrid xs={12} sm={6} md={5} lg={5}>
-                  <FormControl
-                    fullWidth
-                    className={classes.selectFormControl}
-                  >
-                    <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
+                <div style={{display: 'flex', 'margin-bottom': '20px'}}>
+                <ItemGrid xs={12} sm={6} md={6} lg={3}>
+                  <FormControl fullWidth className={classes.selectFormControl}>
+                    <InputLabel htmlFor="city-select" className={classes.selectLabel}>
                       Choose City
                     </InputLabel>
                     <Select
-                      MenuProps={{
-                        className: classes.selectMenu
-                      }}
-                      classes={{
-                        select: classes.select
-                      }}
-                      value={simpleSelect}
+                      MenuProps={{className: classes.selectMenu}}
+                      classes={{select: classes.select}}
+                      value={city}
                       onChange={this.handleSimple}
                       inputProps={{
-                        name: "simpleSelect",
-                        id: "simple-select"
+                        name: "city",
+                        id: "city-select"
                       }}
                     >
-                      <MenuItem disabled classes={{ root: classes.selectMenuItem }} >
-                        Choose City
+                      <MenuItem classes={{ root: classes.selectMenuItem }} value={""}>
+                        None
                       </MenuItem>
-                      {this.selectNode(1, "Hanoi")}
+                      {cities.map((name, index) =>
+                        <MenuItem
+                          classes={{
+                            root: this.props.classes.selectMenuItem,
+                            selected: this.props.classes.selectMenuItemSelected
+                          }}
+                          value={index}
+                        >{name}
+                        </MenuItem>
+                      )}
                     </Select>
                   </FormControl>
                 </ItemGrid>
+                <ItemGrid xs={12} sm={6} md={6} lg={3}>
+                  <FormControl fullWidth className={classes.selectFormControl}>
+                    <InputLabel htmlFor="district-select" className={classes.selectLabel}>
+                      Choose District
+                    </InputLabel>
+                    <Select
+                      MenuProps={{className: classes.selectMenu}}
+                      classes={{select: classes.select}}
+                      value={district}
+                      onChange={this.handleSimple}
+                      inputProps={{
+                        name: "district",
+                        id: "district-select"
+                      }}
+                    >
+                      <MenuItem classes={{ root: classes.selectMenuItem }} value={""}>
+                        None
+                      </MenuItem>
+                      {districts.map((name, index) =>
+                        <MenuItem
+                          classes={{
+                            root: this.props.classes.selectMenuItem,
+                            selected: this.props.classes.selectMenuItemSelected
+                          }}
+                          value={index}
+                        >{name}
+                        </MenuItem>
+                      )}
+                    </Select>
+                  </FormControl>
+                </ItemGrid>
+                </div>
               <ReactTable
                 data={users}
                 filterable

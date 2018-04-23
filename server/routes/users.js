@@ -85,8 +85,15 @@ router.get('/event/detail', function(req, res){
 
 // User API
 router.get('/user', function(req, res){
+	let queryString = {}
+	if (req.query.city) {
+		queryString.city = req.query.city
+	}
+	if(req.query.district) {
+		queryString.district = req.query.district
+	}
 	User
-	.find()
+	.find(queryString)
 	.select('name email phoneNumber lastAccess')
 	.exec(function(err, users){
 		if (err) throw err
