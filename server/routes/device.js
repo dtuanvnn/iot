@@ -3,7 +3,7 @@ var router = express.Router();
 
 var Device = require('../models/device');
 var User = require('../models/user');
-var ensureAuthenticated = require('../functions/ensureAuthenticated')
+var ensureAdministrator = require('../functions/ensureAdministrator')
 
 var Handlebars = require("handlebars");
 var HandlebarsIntl = require('handlebars-intl');

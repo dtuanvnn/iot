@@ -5,7 +5,9 @@ var User = require('../models/user');
 var Admin = require('../models/admin');
 var passport = require('passport');
 var jwt = require('jsonwebtoken');
+var uuidv4 = require('uuid/v4');
 const config = require('../config');
+var ensureAdministrator = require('../functions/ensureAdministrator')
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -13,34 +15,55 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   User.getUserById(id, function(err, user) {
-		console.log("deseri: " + user)
     done(err, user);
   });
 });
 
-// Register
-router.get('/register', function(req, res){
-	if (req.isAuthenticated())
-		res.render('register')
-	else
-		res.sendStatus(401)
-});
+// Register User
+router.post('/register', 
+passport.authenticate('jwt', { session: false }),
+ensureAdministrator, 
+function(req, res){
+	var name = req.body.name
+	var email = req.body.email
+	var password = req.body.password
+	var password2 = req.body.password2
+	var phoneNumber = req.body.phoneNumber
+	// Validation
+	req.checkBody('name', 'Name is required').notEmpty()
+	req.checkBody('email', 'Email is required').notEmpty()
+	req.checkBody('email', 'Email is not valid').isEmail()
+	req.checkBody('password', 'Password is required').notEmpty()
+	req.checkBody('password2', 'Passwords do not match').equals(req.body.password)
+	req.checkBody('phoneNumber', 'Phone Number is number').isNumeric()
+	var errors = req.validationErrors();
 
-// Login
-router.get('/login', function(req, res){
-	res.render('login');
-});
-
-router.post('/login', function (req, res, next) {
-	if (req.isAuthenticated()) {
-		return res.sendStatus(304)
+	if(errors){
+		res.json({errors: errors})
+	} else {
+		var newUser = new User({
+			name: name,
+			email:email,
+			password: password,
+			phoneNumber: phoneNumber,
+			_id: uuidv4()
+		});
+		User.createUser(newUser, function(err, user){
+			if(err) throw err;
+			console.log(user);
+			res.status(200).json({userid: user._id})
+		});
+		req.flash('success_msg', 'You are registered and can now login');
 	}
+});
+// Login
+router.post('/login', function (req, res, next) {
 	passport.authenticate('local', {failureFlash: true, session: true}, function(err, user, info) {
 		if (err) return next(err)
 		req.login(user, function (err) {
-			if (err) return err
+			if (err) return next(err)
 			var payload = {id: user._id, expiresInMinutes: 60};
-			console.log('jwt key ' + config.getJWTKey())
+			config.generateKey()
 			req.session.jwtKey = config.getJWTKey()
 			var token = jwt.sign(payload, req.session.jwtKey)
 
@@ -60,32 +83,19 @@ router.post('/login', function (req, res, next) {
 		})
 	}) (req, res, next)
 })
-
-router.get('/logout', function(req, res){
-	config.generateKey()
-	req.session.jwtKey = config.getJWTKey()
-	req.logout()
-	req.flash('success_msg', 'You are logged out')
-	delete req.session.isAdmin
-	res.redirect('/login')
-});
-
-router.get('/api/logout', function(req, res){
+// Logout
+router.get('/logout', 
+passport.authenticate('jwt', { session: false }), 
+function(req, res){
 	config.generateKey()
 	req.session.jwtKey = config.getJWTKey()
 	req.logout()
 	delete req.session.isAdmin
 	res.sendStatus(200)
 });
-
-// Get Homepage
-router.get('/', passport.authenticate('jwt'), function(req, res){
-	res.render('index');
+// test authentical home page
+router.get('/', function(req, res){
+	return res.status(200).json({message: "OK"})
 });
-
-router.get('/isValidToken', passport.authenticate('jwt', { session: false }), function (req, res) {
-	console.log('OK, token is valid')
-	res.sendStatus(200)
-})
 
 module.exports = router;

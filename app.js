@@ -2,33 +2,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
-var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
 var mongoDBLink = 'mongodb+srv://admin:store@iot-oqebc.mongodb.net/iot';
 var uri = "mongodb://admin:store@iot-shard-00-00-oqebc.mongodb.net:27017,iot-shard-00-01-oqebc.mongodb.net:27017,iot-shard-00-02-oqebc.mongodb.net:27017/iot?ssl=true&replicaSet=iot-shard-0&authSource=admin";
 
 var localDB = 'mongodb://localhost/iot'
-mongoose.connect(uri);
+mongoose.connect(localDB);
 var db = mongoose.connection;
-
-var indexs = require('./server/routes/index');
-var users = require('./server/routes/users');
-var devices = require('./server/routes/devices');
-var history = require('./server/routes/history');
 
 // Init App
 var app = express();
-
-// View Engine
-app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({defaultLayout:'layout'}));
-app.set('view engine', 'handlebars');
 
 // BodyParser Middleware
 app.use(bodyParser.json());
@@ -95,10 +83,18 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/', indexs);
-app.use('/api', users);
-app.use('/devices', devices);
-app.use('/history', history);
+var index = require('./server/routes/index');
+var user = require('./server/routes/user');
+var device = require('./server/routes/device');
+var history = require('./server/routes/history');
+
+app.all('/api/*', passport.authenticate('jwt', { session: false }), function(req, res, next){
+  next()
+})
+app.use('/', index)
+app.use('/api/user', user)
+app.use('/api/device', device)
+app.use('/api/history', history)
 
 // Set Port
 app.set('port', (process.env.PORT || 3001));

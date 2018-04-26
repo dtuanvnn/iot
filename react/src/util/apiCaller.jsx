@@ -14,9 +14,17 @@ export default function callApi(endpoint, method = 'get', body) {
     method,
     body: JSON.stringify(body),
   })
-  .then(response => 
+  .then(response => {
+    console.log(response)
+    if (response.status === 401) {
+      localStorage.clear()
+      return Promise.reject(response)
+    }
+
     response.json().then(json => 
-      ({ json, response })))
+      ({ json, response })
+    )
+  })
   .then(({ json, response }) => {
     if (!response.ok) {
       return Promise.reject(json);

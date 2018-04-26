@@ -1,13 +1,13 @@
 {
-  "name": "loginapp",
+  "name": "IOTManagement",
   "version": "1.0.0",
-  "description": "Simple authentication system",
+  "description": "IOT Management",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Brad Traversy",
+  "author": "Tuan Doan",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "*",
@@ -15,14 +15,11 @@
     "connect-flash": "*",
     "cookie-parser": "^1.4.1",
     "express": "*",
-    "express-handlebars": "*",
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
-    "handlebars-intl": "^1.1.2",
     "jsonwebtoken": "^8.2.1",
     "lodash": "^4.17.5",
-    "mongodb": "*",
     "mongoose": "*",
     "mongoose-dbref": "0.0.4",
     "passport": "*",

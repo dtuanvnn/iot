@@ -43,9 +43,9 @@ class ReactTables extends React.Component{
     let cityValue =  this.state.city === "" ? "" : this.state.cities[this.state.city]
     let districtValue =  this.state.district === "" ? "" : this.state.districts[this.state.district]
     let params = ""
-    params += "?city=" + cityValue
-    params += "&district=" + districtValue
-    callApi('api/user' + params).then(res => {
+    params += cityValue
+    params += "/" + districtValue
+    callApi('api/user/list/' + params).then(res => {
   		var data = res.map((user,key) => {
         user['actions'] = (
           <div className="actions-right">
@@ -82,7 +82,7 @@ class ReactTables extends React.Component{
     const { classes } = this.props;
     const {users, cities, districts, redirect, city, district} = this.state
     if (redirect) {
-      let url = "/users/" + redirect
+      let url = "api/user/detail" + redirect
       return <Redirect to={url} />
     }
     return (
