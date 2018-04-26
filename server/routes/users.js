@@ -85,9 +85,28 @@ router.get('/event/detail', function(req, res){
 
 // User API
 router.get('/user', function(req, res){
+	let queryString = {}
+	if (req.query.city) {
+		queryString.city = req.query.city
+	}
+	if(req.query.district) {
+		queryString.district = req.query.district
+	}
+	User
+	.find(queryString)
+	.select('name email phoneNumber lastAccess')
+	.exec(function(err, users){
+		if (err) throw err
+		res.json(users)
+	})
+})
+router.get('/user/filter', function(req, res){
+	if (!req.query){
+		return res.sendStatus(404)
+	}
 	User
 	.find()
-	.select('name email phoneNumber status')
+	.distinct(req.query.id)
 	.exec(function(err, users){
 		if (err) throw err
 		res.json(users)
@@ -138,13 +157,30 @@ router.get('/area/detail', function(req, res) {
 })
 
 // Device API
-router.get('/device', function(req, res) {
+/* router.get('/device', function(req, res) {
 	Device
 	.find()
 	.exec(function(err, devices){
 		if (err) throw err;
 		res.json(devices)
 	})
+}) */
+router.get('/device', function(req, res) {
+	if (!req.query.id){
+		Device
+		.find()
+		.exec(function(err, devices){
+			if (err) throw err;
+			res.json(devices)
+		})
+	} else {
+		Device
+		.find({'user.$id': req.query.id})
+		.exec(function(err, devices){
+			if (err) throw err;
+			res.json(devices)
+		})
+	}
 })
 router.get('/device/detail', function(req, res) {
 	if (!req.query.id){
@@ -201,11 +237,6 @@ router.post('/register', passport.authenticate('jwt', { session: false }), funct
 		res.redirect('/login');
 	}
 });
-
-router.get('/islogged', passport.authenticate('jwt', { session: false }), function (req, res) {
-	console.log('OK')
-	res.sendStatus(200)
-})
 
 /*
 router.post('/login', function (req, res, next) {

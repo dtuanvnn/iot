@@ -10,7 +10,11 @@ var passport = require('passport');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/iot');
+var mongoDBLink = 'mongodb+srv://admin:store@iot-oqebc.mongodb.net/iot';
+var uri = "mongodb://admin:store@iot-shard-00-00-oqebc.mongodb.net:27017,iot-shard-00-01-oqebc.mongodb.net:27017,iot-shard-00-02-oqebc.mongodb.net:27017/iot?ssl=true&replicaSet=iot-shard-0&authSource=admin";
+
+var localDB = 'mongodb://localhost/iot'
+mongoose.connect(uri);
 var db = mongoose.connection;
 
 var indexs = require('./server/routes/index');

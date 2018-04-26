@@ -1,31 +1,56 @@
 import IndexPage from "views/Index/Index.jsx";
 import UserProfilePage from "views/User/Profile.jsx";
+import UserReactPage from "views/User/ReactUser.jsx";
 import UserListPage from "views/User/Lists.jsx";
-
+import DeviceListPage from "views/Device/List.jsx"
 // @material-ui/icons
 import { Dashboard, PermIdentity } from "@material-ui/icons"
 
 const appRoutes = [
   {
     path: "/home",
-    sidebarName: "Home Page",
+    name: "Home Page",
     navbarName: "IOT Home Page",
     icon: Dashboard,
     component: IndexPage
   },
   {
-    path: "/profile",
-    sidebarName: "User Profile",
-    navbarName: "IOT User Profile",
+    collapse: true,
+    state: "openUsers",
+    path: "/users",
+    name: "Users",
+    navbarName: "IOT Users",
     icon: PermIdentity,
-    component: UserProfilePage
+    views: [
+      /* {
+        path: "/users/list",
+        name: "User List",
+        navbarName: "User List",
+        mini: "UL",
+        component: UserListPage
+      }, */
+      {
+        path: "/users/react",
+        name: "User List",
+        navbarName: "User List",
+        mini: "UP",
+        component: UserReactPage
+      },
+      {
+        path: "/users/profile",
+        name: "User Profile",
+        navbarName: "User Profile",
+        mini: "UP",
+        component: UserProfilePage
+      }
+    ]
   },
   {
-    path: "/users",
-    sidebarName: "Users List",
-    navbarName: "IOT Users List",
+    path: "/devices",
+    name: "Devices",
+    navbarName: "IOT Devices",
     icon: PermIdentity,
-    component: UserListPage
+    component: DeviceListPage
   },
   {
     redirect: true,

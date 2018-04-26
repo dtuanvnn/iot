@@ -48,7 +48,7 @@ class Index extends React.Component {
     return (
       <div>
         <Grid container>
-          <ItemGrid xs={12} sm={6} md={3}>
+          <ItemGrid xs={12} sm={6} md={6} lg={3}>
             <StatsCard
               icon={ContentCopy}
               iconColor="orange"
@@ -60,7 +60,7 @@ class Index extends React.Component {
               statLink={{ text: "Get More Space...", href: "#pablo" }}
             />
           </ItemGrid>
-          <ItemGrid xs={12} sm={6} md={3}>
+          <ItemGrid xs={12} sm={6} md={6} lg={3}>
             <StatsCard
               icon={Store}
               iconColor="green"
@@ -70,7 +70,7 @@ class Index extends React.Component {
               statText="Last 24 Hours"
             />
           </ItemGrid>
-          <ItemGrid xs={12} sm={6} md={3}>
+          <ItemGrid xs={12} sm={6} md={6} lg={3}>
             <StatsCard
               icon={InfoOutline}
               iconColor="red"
@@ -80,7 +80,7 @@ class Index extends React.Component {
               statText="Tracked from Github"
             />
           </ItemGrid>
-          <ItemGrid xs={12} sm={6} md={3}>
+          <ItemGrid xs={12} sm={6} md={6} lg={3}>
             <StatsCard
               icon={Accessibility}
               iconColor="blue"

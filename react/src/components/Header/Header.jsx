@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Menu } from "@material-ui/icons";
+import { Menu, MoreVert, ViewList } from "@material-ui/icons";
 import {
   withStyles,
   AppBar,
@@ -14,6 +14,7 @@ import cx from "classnames";
 import headerStyle from "assets/jss/material-dashboard-react/headerStyle.jsx";
 
 import HeaderLinks from "./HeaderLinks";
+import CustomIconButton from "components/CustomButtons/IconButton.jsx";
 
 function Header({ ...props }) {
   function makeBrand() {
@@ -33,9 +34,22 @@ function Header({ ...props }) {
   return (
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
+        <Hidden smDown>
+          <div className={classes.sidebarMinimize}>
+            {props.miniActive ? (
+              <CustomIconButton color="white" onClick={props.sidebarMinimize}>
+                <ViewList className={classes.sidebarMiniIcon} />
+              </CustomIconButton>
+            ) : (
+              <CustomIconButton color="white" onClick={props.sidebarMinimize}>
+                <MoreVert className={classes.sidebarMiniIcon} />
+              </CustomIconButton>
+            )}
+          </div>
+        </Hidden>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
-          <Button href="#" className={classes.title}>
+          <Button className={classes.title}>
             {makeBrand()}
           </Button>
         </div>

@@ -1,14 +1,30 @@
-import React from "react";
+import React, { PropTypes, Component } from 'react';
 import { Grid } from "material-ui";
-
 import { RegularCard, Table, ItemGrid } from "components";
+import callApi from 'util/apiCaller'
 
-function UserList({ ...props }) {
-	const {
-    users
-  } = props;
-	return (
-		<div>
+class UserList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: []
+    };
+  }
+
+  componentDidMount() {
+  	callApi('api/user').then(res => {
+  		var data = res.map(user => Object.keys(user).map(function(key) {
+        return user[key]
+      }))
+      var users = data.map(val => val.shift())
+  		this.setState({users: data})
+  	})
+  }
+  
+  render() {
+  	const {users} = this.state
+    return (
+    	<div>
     <Grid>
 	    <ItemGrid xs={12} sm={12} md={12}>
         <RegularCard
@@ -17,7 +33,7 @@ function UserList({ ...props }) {
           content={
             <Table
               tableHeaderColor="primary"
-              tableHead={["Name", "Email", "Phone Number", "City", "Last Access"]}
+              tableHead={["Name", "Email", "Phone Number", "Last Access"]}
               tableData={users}
             />
           }
@@ -25,7 +41,8 @@ function UserList({ ...props }) {
       </ItemGrid>
     </Grid>
     </div>
-  )
+    )
+	}
 }
 
 export default UserList;

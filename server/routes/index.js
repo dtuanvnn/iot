@@ -55,7 +55,7 @@ router.post('/login', function (req, res, next) {
 				} else {
 					req.session.isAdmin = admin.type
 				}
-				return res.json({message: "ok", token: token});
+				return res.json({message: "ok", token: token, userid: user._id});
 			})
 		})
 	}) (req, res, next)
@@ -82,5 +82,10 @@ router.get('/api/logout', function(req, res){
 router.get('/', passport.authenticate('jwt'), function(req, res){
 	res.render('index');
 });
+
+router.get('/isValidToken', passport.authenticate('jwt', { session: false }), function (req, res) {
+	console.log('OK, token is valid')
+	res.sendStatus(200)
+})
 
 module.exports = router;
