@@ -17,6 +17,7 @@ import { Person, Notifications, Dashboard, Search } from "@material-ui/icons";
 import { CustomInput, IconButton as SearchButton } from "components";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { Redirect } from "react-router-dom"
+import callApi from 'util/apiCaller'
 
 import headerLinksStyle from "assets/jss/material-dashboard-react/headerLinksStyle";
 
@@ -43,8 +44,10 @@ class HeaderLinks extends React.Component {
     this.setState({ dashboard: true });
   }
   handleLogout = () => {
-    localStorage.clear()
-    this.setState({ logout: true });
+    callApi('logout').then(res => {
+  		localStorage.clear()
+      this.setState({ logout: true });
+  	})
   }
   successAlert = () => {
     this.setState({
