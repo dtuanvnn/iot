@@ -60,26 +60,23 @@ function(req, res){
 router.post('/login', function (req, res, next) {
 	passport.authenticate('local', {failureFlash: true, session: true}, function(err, user, info) {
 		if (err) return next(err)
-		req.login(user, function (err) {
-			if (err) return next(err)
-			var payload = {id: user._id, expiresInMinutes: 60};
-			config.generateKey()
-			req.session.jwtKey = config.getJWTKey()
-			var token = jwt.sign(payload, req.session.jwtKey)
+		var payload = {id: user._id, expiresInMinutes: 60};
+		config.generateKey()
+		console.log(config.getJWTKey())
+		var token = jwt.sign(payload, config.getJWTKey())
 
-			Admin
-			.findOne({'user':user._id})
-			.select('-_id -user')
-			.exec(function(err, admin){
-				if (err) throw err
-				if (!admin) {
-					console.log('set admin')
-					req.session.isAdmin = -1
-				} else {
-					req.session.isAdmin = admin.type
-				}
-				return res.json({message: "ok", token: token, userid: user._id});
-			})
+		Admin
+		.findOne({'user':user._id})
+		.select('-_id -user')
+		.exec(function(err, admin){
+			if (err) throw err
+			if (!admin) {
+				console.log('set admin')
+				req.session.isAdmin = -1
+			} else {
+				req.session.isAdmin = admin.type
+			}
+			return res.json({message: "ok", token: token, userid: user._id});
 		})
 	}) (req, res, next)
 })
@@ -88,13 +85,15 @@ router.get('/logout',
 passport.authenticate('jwt', { session: false }), 
 function(req, res){
 	config.generateKey()
-	req.session.jwtKey = config.getJWTKey()
-	req.logout()
 	delete req.session.isAdmin
 	res.sendStatus(200)
 });
 // test authentical home page
-router.get('/', function(req, res){
+router.get('/', function(req, res, next) { 
+	console.log(req.headers)
+passport.authenticate('jwt', { session: false })(req, res, next)
+},
+function(req, res){
 	return res.status(200).json({message: "OK"})
 });
 

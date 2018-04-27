@@ -8,7 +8,8 @@ var JwtStrategy = passportJWT.Strategy;
 var jwtOptions = {}
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 jwtOptions.secretOrKeyProvider = function(req, rawToken, done){
-  return done(null, req.session.jwtKey)
+  console.log(config.getJWTKey())
+  return done(null, config.getJWTKey())
 }
 //config.getJWTKey()
 

@@ -89,7 +89,7 @@ router.get('/filter', function(req, res){
 		res.json(users)
 	})
 })
-router.get('/user/detail', function(req, res){
+router.get('/detail', function(req, res){
 	if (!req.query.id){
 		return res.sendStatus(404)
 	}

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import axios from 'axios'
+import { connect } from "react-redux"
 import { Redirect } from 'react-router-dom'
 
 // material-ui components
@@ -17,6 +18,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-react/views/loginPageStyle.jsx";
+import { fetchLogin } from "actions/index.jsx"
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -30,11 +32,11 @@ class LoginPage extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  login = (res) => {
+  /* login = (res) => {
     localStorage.setItem('token', res.data.token)
     localStorage.setItem('userid', res.data.userid)
     this.setState({redirectToReferrer: true})
-  }
+  } */
   validateForm() {
     return this.state.username.length > 0 && this.state.password.length > 0;
   }
@@ -45,14 +47,19 @@ class LoginPage extends React.Component {
   }
   handleSubmit(event) {
     console.log('state ', this.state)
-    axios.post('http://localhost:3001/login', {
+    const { dispatch } = this.props
+    dispatch(fetchLogin({
+      username: this.state.username,
+      password: this.state.password
+    }))
+    /* axios.post('http://localhost:3001/login', {
       username: this.state.username,
       password: this.state.password
     })
     .then(this.login)
     .catch(function (err) {
       console.log(err)
-    })
+    }) */
     event.preventDefault();
   }
   componentDidMount() {
@@ -65,11 +72,13 @@ class LoginPage extends React.Component {
     );
   }
   render() {
-    const { classes } = this.props;
+    const { classes, token, userId } = this.props;
     const { from } = this.props.location.state || { from: { pathname: "/" } };
     const { redirectToReferrer } = this.state;
 
-    if (redirectToReferrer) {
+    if (token !== "") {
+      localStorage.setItem('token', token)
+      localStorage.setItem('userId', userId)
       return <Redirect to={from} />;
     }
     return (
@@ -151,7 +160,28 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  token: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+  lastLoggedIn: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
-export default withStyles(loginPageStyle)(LoginPage)
+const mapStateToProps = state => {
+  const { loggedIn } = state
+  const {
+    isFetching,
+    token,
+    userId,
+    lastLoggedIn
+  } = loggedIn
+  return {
+    isFetching,
+    token,
+    userId,
+    lastLoggedIn
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(loginPageStyle)(LoginPage))

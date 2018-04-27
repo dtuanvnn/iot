@@ -7,24 +7,21 @@ export const API_URL = (typeof window === 'undefined' || process.env.NODE_ENV ==
 export default function callApi(endpoint, method = 'get', body) {
   var token = 'Bearer ' + localStorage.getItem('token')
   return fetch(`${API_URL}/${endpoint}`, {
-    headers: { 
+    headers: {
       'content-type': 'application/json',
-      'Authorization': token
+      'authorization': token
     },
     method,
     body: JSON.stringify(body),
   })
-  .then(response => {
-    console.log(response)
-    if (response.status === 401) {
+  .then(response => 
+    /* if (!response.ok) {
       localStorage.clear()
-      return Promise.reject(response)
-    }
-
+    } */
     response.json().then(json => 
       ({ json, response })
     )
-  })
+  )
   .then(({ json, response }) => {
     if (!response.ok) {
       return Promise.reject(json);

@@ -3,7 +3,7 @@ var jwtSecret = {
   jwtSecretKey: "",
 
   generateKey: function() {
-    this.jwtSecretKey = this.mykey + new Date().toUTCString()
+    this.jwtSecretKey = Buffer.from(this.mykey + new Date().toUTCString()).toString('base64')
   },
 
   getJWTKey: function() {

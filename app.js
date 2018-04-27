@@ -88,9 +88,16 @@ var user = require('./server/routes/user');
 var device = require('./server/routes/device');
 var history = require('./server/routes/history');
 
-app.all('/api/*', passport.authenticate('jwt', { session: false }), function(req, res, next){
+/* app.all('/api/*', function(req, res, next) {
+  console.log('verifying')
+  passport.authenticate('jwt', { session: false }, function(a, b, c, d) {
+    console.log(a,b,c,d)
+  })(req,res,next)
+}, 
+function(req, res, next){
+  console.log('all')
   next()
-})
+}) */
 app.use('/', index)
 app.use('/api/user', user)
 app.use('/api/device', device)
