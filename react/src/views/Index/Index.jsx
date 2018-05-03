@@ -165,12 +165,12 @@ class Index extends React.Component {
           <ItemGrid xs={12} sm={12} md={6}>
             <RegularCard
               headerColor="orange"
-              cardTitle="Employees Stats"
-              cardSubtitle="New employees on 15th September, 2016"
+              cardTitle="Khách hàng đăng ký mới"
+              cardSubtitle={"Đến ngày "}
               content={
                 <Table
                   tableHeaderColor="warning"
-                  tableHead={["ID", "Name", "Salary", "Country"]}
+                  tableHead={["STT", "Tên", "Tỉnh/TP", "Quận/Huyện"]}
                   tableData={[
                     ["1", "Dakota Rice", "$36,738", "Niger"],
                     ["2", "Minerva Hooper", "$23,789", "Curaçao"],

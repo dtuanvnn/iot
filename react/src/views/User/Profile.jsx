@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, InputLabel } from "material-ui";
+import { Grid, InputLabel, FormLabel } from "material-ui";
 import { Redirect, Link } from "react-router-dom"
 import callApi from 'util/apiCaller'
 import axios from 'axios'
@@ -59,14 +59,20 @@ class Profile extends React.Component {
     return (
       <div>
         <Grid container>
-          <ItemGrid xs={12} sm={12} md={8}>
+          <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
               cardTitle={cartTitle}
               cardSubtitle="Complete your profile"
               content={
-                <div>
+                <form>
                   <Grid container>
+                    <ItemGrid xs={12} sm={2} md={3}>
+                      <FormLabel /* className={classes.labelHorizontal} */>
+                        Required Text
+                      </FormLabel>
+                    </ItemGrid>
                     <ItemGrid xs={12} sm={12} md={3}>
+                      
                       <CustomInput
                         labelText={user.name}
                         id="username"
@@ -173,7 +179,7 @@ class Profile extends React.Component {
                       />
                     </ItemGrid>
                   </Grid> */}
-                </div>
+                </form>
               }
               footer={
                 <div>

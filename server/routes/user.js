@@ -60,14 +60,14 @@ router.get('/event/detail', function(req, res){
 })
 
 // User API
-router.get('/list/:city/:district', function(req, res, next){
-	console.log(req.params)
+router.get('/list', function(req, res, next){
+	console.log(req.query)
 	let queryString = {}
-	if (req.params.city) {
-		queryString.city = req.params.city
+	if (req.query.city) {
+		queryString.city = req.query.city
 	}
-	if(req.params.district) {
-		queryString.district = req.params.district
+	if(req.query.district) {
+		queryString.district = req.query.district
 	}
 	User
 	.find(queryString)
@@ -131,48 +131,6 @@ router.get('/area/detail', function(req, res) {
 		if (err) throw err
 		res.json(area)
 	})
-})
-
-// Device API
-/* router.get('/device', function(req, res) {
-	Device
-	.find()
-	.exec(function(err, devices){
-		if (err) throw err;
-		res.json(devices)
-	})
-}) */
-router.get('/device', function(req, res) {
-	if (!req.query.id){
-		Device
-		.find()
-		.exec(function(err, devices){
-			if (err) throw err;
-			res.json(devices)
-		})
-	} else {
-		Device
-		.find({'user.$id': req.query.id})
-		.exec(function(err, devices){
-			if (err) throw err;
-			res.json(devices)
-		})
-	}
-})
-router.get('/device/detail', function(req, res) {
-	if (!req.query.id){
-		return res.sendStatus(404)
-	}
-	Device
-	.findOne({'_id':req.query.id})
-	.select('-_id -_class')
-	.populate('user', 'name')
-	.populate('area', 'name')
-	.populate('outputs', '-_id -_class -user -area -control')
-	.exec(function(err, device){
-		if (err) throw err;
-		res.json(device)
-	});
 })
 
 /*

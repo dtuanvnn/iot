@@ -40,12 +40,12 @@ class ReactTables extends React.Component{
     })
   }
   fetchUsers = () => {
-    let cityValue =  this.state.city === "" ? "" : this.state.cities[this.state.city]
-    let districtValue =  this.state.district === "" ? "" : this.state.districts[this.state.district]
+    let cityValue =  this.state.city === "" ? "" : "city=" + this.state.cities[this.state.city]
+    let districtValue =  this.state.district === "" ? "" : "&district=" + this.state.districts[this.state.district]
     let params = ""
     params += cityValue
-    params += "/" + districtValue
-    callApi('api/user/list/' + params).then(res => {
+    params += "" + districtValue
+    callApi('api/user/list?' + params).then(res => {
   		var data = res.map((user,key) => {
         user['actions'] = (
           <div className="actions-right">

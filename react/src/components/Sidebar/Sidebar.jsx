@@ -18,6 +18,7 @@ import {
 import { HeaderLinks } from "components";
 
 import sidebarStyle from "assets/jss/material-dashboard-react/sidebarStyle.jsx";
+import avatar from "assets/img/faces/marc.jpg";
 
 let ps
 class SidebarWrapper extends React.Component {
@@ -50,6 +51,7 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      openAvatar: false,
       openUsers: this.activeRoute("/users"),
       miniActive: true
     };
@@ -82,6 +84,94 @@ class Sidebar extends React.Component {
     const userWrapperClass = classes.user
     const caret = classes.caret
     const collapseItemMini = classes.collapseItemMini
+    var user = (
+      <div className={userWrapperClass}>
+        <div className={classes.photo}>
+          <img src={avatar} className={classes.avatarImg} alt="..." />
+        </div>
+        <List className={classes.list}>
+          <ListItem className={classes.item + " " + classes.userItem}>
+            <NavLink
+              to={"#"}
+              className={classes.itemLink + " " + classes.userCollapseButton}
+              onClick={() => this.openCollapse("openAvatar")}
+            >
+              <ListItemText
+                primary={"Tuan Doan"}
+                secondary={
+                  <b
+                    className={
+                      caret + " " + classes.userCaret +
+                      " " +
+                      (this.state.openAvatar ? classes.caretActive : "")
+                    }
+                  />
+                }
+                disableTypography={true}
+                className={itemText + " " + classes.userItemText}
+              />
+            </NavLink>
+            <Collapse in={this.state.openAvatar} unmountOnExit>
+              <List className={classes.list + " " + classes.collapseList}>
+                <ListItem className={classes.collapseItem}>
+                  <NavLink
+                    to="/users/profile"
+                    className={
+                      classes.itemLink + " " + classes.userCollapseLinks
+                    }
+                  >
+                    <span className={collapseItemMini}>
+                      {"MP"}
+                    </span>
+                    <ListItemText
+                      primary={"My Profile"}
+                      disableTypography={true}
+                      className={collapseItemText}
+                    />
+                  </NavLink>
+                </ListItem>
+                <ListItem className={classes.collapseItem}>
+                  <NavLink
+                    to="#"
+                    className={
+                      classes.itemLink + " " + classes.userCollapseLinks
+                    }
+                  >
+                    <span className={collapseItemMini}>
+                      {"EP"}
+                    </span>
+                    <ListItemText
+                      primary={
+                        "Edit Profile"
+                      }
+                      disableTypography={true}
+                      className={collapseItemText}
+                    />
+                  </NavLink>
+                </ListItem>
+                <ListItem className={classes.collapseItem}>
+                  <NavLink
+                    to="#"
+                    className={
+                      classes.itemLink + " " + classes.userCollapseLinks
+                    }
+                  >
+                    <span className={collapseItemMini}>
+                      {"S"}
+                    </span>
+                    <ListItemText
+                      primary={"Settings"}
+                      disableTypography={true}
+                      className={collapseItemText}
+                    />
+                  </NavLink>
+                </ListItem>
+              </List>
+            </Collapse>
+          </ListItem>
+        </List>
+      </div>
+    )
     var links = (
       <List className={classes.list}>
         {routes.map((prop, key) => {
@@ -263,6 +353,7 @@ class Sidebar extends React.Component {
             <SidebarWrapper
               className={sidebarWrapper}
               headerLinks={<HeaderLinks />}
+              user={user}
               links={links}
             />
           </Drawer>
@@ -281,6 +372,7 @@ class Sidebar extends React.Component {
             {brand}
             <SidebarWrapper
               className={sidebarWrapper}
+              user={user}
               links={links}
             />
           </Drawer>
