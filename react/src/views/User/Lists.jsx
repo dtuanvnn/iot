@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Grid } from "material-ui";
 import { RegularCard, Table, ItemGrid } from "components";
-import callApi from 'util/apiCaller'
+import { API } from 'util/apiCaller'
 
 class Lists extends React.Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class Lists extends React.Component {
   }
 
   componentDidMount() {
-  	callApi('api/user').then(res => {
+  	API('api/user').then(res => {
   		var data = res.map(user => Object.keys(user).map(function(key) {
         return user[key]
       }))

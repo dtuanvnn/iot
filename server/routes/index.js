@@ -76,18 +76,27 @@ router.post('/login', function (req, res, next) {
 			} else {
 				req.session.isAdmin = admin.type
 			}
-			return res.json({message: "ok", token: token, userid: user._id});
+			return res.json({
+				message: "ok", 
+				user: {
+					token: token, 
+					userid: user._id, 
+					admin: admin.type,
+					username: user.name
+				}
+			});
 		})
 	}) (req, res, next)
 })
 // Logout
-router.get('/logout', 
-passport.authenticate('jwt', { session: false }), 
-function(req, res){
-	config.generateKey()
-	delete req.session.isAdmin
-	res.sendStatus(200)
-});
+router.post('/logout', 
+	/* passport.authenticate('jwt', { session: false }),  */
+	function(req, res){
+		config.generateKey()
+		delete req.session.isAdmin
+		res.sendStatus(200)
+	}
+);
 // test authentical home page
 router.get('/', function(req, res, next) { 
 	console.log(req.headers)

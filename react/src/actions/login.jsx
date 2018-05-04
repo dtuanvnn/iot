@@ -11,7 +11,9 @@ export const receiveLogin = (username, user) => ({
   type: RECEIVE_LOGIN,
   username,
   token: user.token,
+  admin: user.admin,
   userId: user.userid,
+  username: user.username,
   receiveAt: Date.now()
 })
 export const fetchLogin = login => dispatch => {
@@ -22,7 +24,7 @@ export const fetchLogin = login => dispatch => {
   })
   .then(
     res => 
-    dispatch(receiveLogin(login.username, res.data)))
+    dispatch(receiveLogin(login.username, res.data.user)))
   .catch(function (err) {
     console.log(err)
   })

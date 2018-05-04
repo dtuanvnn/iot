@@ -14,7 +14,7 @@ import IconButton from "components/CustomButtons/IconButton.jsx"
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/extendedFormsStyle.jsx";
 
-import callApi from 'util/apiCaller'
+import { API } from 'util/apiCaller'
 
 class ReactTables extends React.Component{
   constructor(props){
@@ -45,7 +45,7 @@ class ReactTables extends React.Component{
     let params = ""
     params += cityValue
     params += "" + districtValue
-    callApi('api/user/list?' + params).then(res => {
+    API('api/user/list?' + params).then(res => {
   		var data = res.map((user,key) => {
         user['actions'] = (
           <div className="actions-right">
@@ -70,10 +70,10 @@ class ReactTables extends React.Component{
   	})
   }
   componentDidMount() {
-    callApi('api/user/filter?id=city').then(res => {
+    API('api/user/filter?id=city').then(res => {
   		this.setState({cities: res})
     })
-    callApi('api/user/filter?id=district').then(res => {
+    API('api/user/filter?id=district').then(res => {
   		this.setState({districts: res})
     })
   	this.fetchUsers()

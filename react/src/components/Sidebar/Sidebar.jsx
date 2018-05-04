@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux"
 import cx from "classnames";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -67,7 +68,7 @@ class Sidebar extends React.Component {
     this.setState(st);
   }
   render() {
-    const { classes, color, logo, image, logoText, routes, bgColor } = this.props;
+    const { classes, color, logo, image, logoText, routes, bgColor, isAdmin, username } = this.props;
     const itemText =
       classes.itemText +
       " " +
@@ -97,7 +98,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={"Tuan Doan"}
+                primary={username}
                 secondary={
                   <b
                     className={
@@ -172,7 +173,7 @@ class Sidebar extends React.Component {
         </List>
       </div>
     )
-    var links = (
+    var links = (isAdmin ? 
       <List className={classes.list}>
         {routes.map((prop, key) => {
           if (prop.redirect) return null;
@@ -292,7 +293,7 @@ class Sidebar extends React.Component {
             </ListItem>
           );
         })}
-      </List>
+      </List> : undefined
     );
     const logoNormal =
       classes.logoNormal +
@@ -390,7 +391,17 @@ Sidebar.propTypes = {
   logo: PropTypes.string,
   logoText: PropTypes.string,
   image: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object)
+  routes: PropTypes.arrayOf(PropTypes.object),
+  isAdmin: PropTypes.bool.isRequired,
+  username: PropTypes.string.isRequired
 };
 
-export default withStyles(sidebarStyle)(Sidebar);
+const mapStateToProps = (state, ownProps) => {
+  const { loggedIn } = state
+  return {
+      isAdmin: loggedIn.admin > 0,
+      username: loggedIn.username
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(sidebarStyle)(Sidebar));

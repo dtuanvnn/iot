@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Manager, Target, Popper } from "react-popper";
 import {
@@ -17,7 +18,14 @@ import { Person, Notifications, Dashboard, Search } from "@material-ui/icons";
 import { CustomInput, IconButton as SearchButton } from "components";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { Redirect } from "react-router-dom"
-import callApi from 'util/apiCaller'
+import { API } from 'util/apiCaller'
+import { connect } from "react-redux"
+import { fetchLogout } from "actions/logout.jsx"
+import {
+  REQUEST_LOGOUT,
+  RECEIVE_LOGOUT,
+  FAILED_LOGOUT
+} from "actions/logout.jsx"
 
 import headerLinksStyle from "assets/jss/material-dashboard-react/headerLinksStyle";
 
@@ -44,10 +52,13 @@ class HeaderLinks extends React.Component {
     this.setState({ dashboard: true });
   }
   handleLogout = () => {
-    callApi('logout').then(res => {
+    const { dispatch } = this.props
+    dispatch(fetchLogout())
+
+    /* API('logout', this.props.token).then(res => {
   		localStorage.clear()
       this.setState({ logout: true });
-  	})
+  	}) */
   }
   successAlert = () => {
     this.setState({
@@ -61,31 +72,59 @@ class HeaderLinks extends React.Component {
           confirmBtnCssClass={
             this.props.classes.button + " " + this.props.classes.success
           }
-          onConfirm={this.handleLogout}
         >
           Click on the button to redirect to login page.
         </SweetAlert>
       )
     })
   }
+  errorAlert = (logoutMessage) => {
+    this.setState({
+      alert: (
+        <SweetAlert
+          danger
+          style={{ display: "block", marginTop: "-100px" }}
+          title="Error"
+          onConfirm={() => this.hideAlert()}
+          onCancel={() => this.hideAlert()}
+          confirmBtnCssClass={
+            this.props.classes.button + " " + this.props.classes.success
+          }
+        >
+          {logoutMessage}
+        </SweetAlert>
+      )
+    })
+  }
   hideAlert() {
     this.setState({
-      alert: null
+      alert: null,
+      logout: true
     });
   }
   componentWillMount = () => {
     this.setState({dashboard: false, logout: false})
   }
   render() {
-    const { classes } = this.props;
+    const { classes, isFetching, logoutType, logoutMessage } = this.props;
     const { open, dashboard, alert, logout } = this.state;
     if (dashboard) {
       this.setState({dashboard: false})
       return <Redirect to={"/home"} />
     }
     if (logout) {
+      localStorage.clear()
       this.setState({logout: false})
       return <Redirect to={"/pages/login"} />
+    }
+    if (alert === null && isFetching) {
+      /* if (logoutType === FAILED_LOGOUT) {
+        this.errorAlert(logoutMessage)
+      } */
+      /* if (logoutType === RECEIVE_LOGOUT) {
+        this.successAlert()
+      } */
+      this.successAlert()
     }
     return (
       <div>
@@ -208,7 +247,7 @@ class HeaderLinks extends React.Component {
             color="inherit"
             aria-label="Person"
             className={classes.buttonLink}
-            onClick={this.successAlert}
+            onClick={this.handleLogout}
           >
             <Person className={classes.links} />
             <Hidden mdUp>
@@ -221,4 +260,22 @@ class HeaderLinks extends React.Component {
   }
 }
 
-export default withStyles(headerLinksStyle)(HeaderLinks);
+HeaderLinks.propTypes = {
+  classes: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  logoutType: PropTypes.string.isRequired,
+  logoutMessage: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired
+}
+
+const mapStateTOProps = (state) => {
+  const {loggedIn, loggedOut} = state
+  return  {
+    token: loggedIn.token,
+    isFetching: loggedOut.isFetching,
+    logoutType: loggedOut.type,
+    logoutMessage: loggedOut.message
+  }
+}
+export default connect(mapStateTOProps)(withStyles(headerLinksStyle)(HeaderLinks));

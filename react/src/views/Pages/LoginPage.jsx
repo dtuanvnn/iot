@@ -18,7 +18,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-react/views/loginPageStyle.jsx";
-import { fetchLogin } from "actions/index.jsx"
+import { fetchLogin } from "actions/login.jsx"
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -72,13 +72,13 @@ class LoginPage extends React.Component {
     );
   }
   render() {
-    const { classes, token, userId } = this.props;
+    const { classes, token } = this.props;
     const { from } = this.props.location.state || { from: { pathname: "/" } };
     const { redirectToReferrer } = this.state;
 
     if (token !== "") {
-      localStorage.setItem('token', token)
-      localStorage.setItem('userId', userId)
+      /* localStorage.setItem('token', token)
+      localStorage.setItem('userId', userId) */
       return <Redirect to={from} />;
     }
     return (
@@ -163,8 +163,6 @@ LoginPage.propTypes = {
   classes: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired,
   token: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
-  lastLoggedIn: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
@@ -172,15 +170,11 @@ const mapStateToProps = state => {
   const { loggedIn } = state
   const {
     isFetching,
-    token,
-    userId,
-    lastLoggedIn
+    token
   } = loggedIn
   return {
     isFetching,
-    token,
-    userId,
-    lastLoggedIn
+    token
   }
 }
 

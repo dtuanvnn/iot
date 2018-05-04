@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, InputLabel, FormLabel } from "material-ui";
 import { Redirect, Link } from "react-router-dom"
-import callApi from 'util/apiCaller'
+import { API } from 'util/apiCaller'
 import axios from 'axios'
 
 import {
@@ -33,7 +33,7 @@ class Profile extends React.Component {
     }
     this.setState({userid: id})
     this.setState({redirect: ""})
-  	callApi('api/user/detail?id=' + id).then(res => {
+  	API('api/user/detail?id=' + id).then(res => {
       /* if (!res.ok) {
         this.setState({redirect: "/pages/login"})
         return

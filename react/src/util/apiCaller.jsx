@@ -1,15 +1,17 @@
 import fetch from 'isomorphic-fetch';
+import { connect } from "react-redux"
 
 export const API_URL = (typeof window === 'undefined' || process.env.NODE_ENV === 'test') ?
   process.env.BASE_URL || (`http://localhost:3001`) :
   'http://localhost:3001';
 
-export default function callApi(endpoint, method = 'get', body) {
-  var token = 'Bearer ' + localStorage.getItem('token')
+
+ export const API = (endpoint, token, method = 'get', body) => {
+  let tokens = 'Bearer ' + token
   return fetch(`${API_URL}/${endpoint}`, {
     headers: {
       'content-type': 'application/json',
-      'authorization': token
+      'authorization': tokens
     },
     method,
     body: JSON.stringify(body),

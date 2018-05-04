@@ -10,12 +10,18 @@ import "assets/css/material-dashboard-pro-react.css?v=1.2.1"
 
 import indexRoutes from "routes/index.jsx"
 import rootReducer from "reducers/index.jsx"
+import {loadState, saveState } from "util/localStorage.jsx"
 
+const persistedState = loadState()
 const middleware = [ thunk ]
 const store = createStore(
   rootReducer, 
+  persistedState,
   applyMiddleware(...middleware)
 )
+store.subscribe(() => {
+  saveState(store.getState())
+})
 
 ReactDOM.render(
   <Provider store={store}>
