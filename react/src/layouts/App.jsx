@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import cx from "classnames"
 import { Switch, Redirect } from "react-router-dom";
+// react plugin for creating notifications over the dashboard
+import NotificationAlert from "react-notification-alert";
+import AddAlert from "@material-ui/icons/AddAlert";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -48,6 +51,9 @@ class App extends React.Component {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   }
   componentDidMount() {
+    /* this.notify("tl")
+    this.notify("tl")
+    this.notify("tl") */
     if(navigator.platform.indexOf('Win') > -1){
       // eslint-disable-next-line
       ps = new PerfectScrollbar(this.refs.mainPanel);
@@ -64,6 +70,42 @@ class App extends React.Component {
   sidebarMinimize() {
     this.setState({ miniActive: !this.state.miniActive });
   }
+  notify(place) {
+    var color = Math.floor(Math.random() * 5 + 1);
+    var type;
+    switch (color) {
+      case 1:
+        type = "primary";
+        break;
+      case 2:
+        type = "success";
+        break;
+      case 3:
+        type = "danger";
+        break;
+      case 4:
+        type = "warning";
+        break;
+      case 5:
+        type = "info";
+        break;
+      default:
+        break;
+    }
+    var options = {};
+    options = {
+      place: place,
+      message: (
+        <div>
+          <div>
+            Welcome to <b>IOT Management Tool</b> - made for a better life.
+          </div>
+        </div>
+      ),
+      type: type
+    };
+    this.refs.notificationAlert.notificationAlert(options);
+  }
   render() {
     const { classes, ...rest } = this.props;
     const mainPanel =
@@ -75,6 +117,7 @@ class App extends React.Component {
       });
     return (
       <div className={classes.wrapper}>
+        <NotificationAlert ref="notificationAlert" />
         <Sidebar
           routes={appRoutes}
           logoText={"IOT"}

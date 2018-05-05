@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux"
+
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 import {
@@ -45,8 +47,10 @@ class Index extends React.Component {
     this.setState({ value: index });
   };
   render() {
+    const { admin } = this.props
     return (
       <div>
+        {admin > 0 ? (
         <Grid container>
           <ItemGrid xs={12} sm={6} md={6} lg={3}>
             <StatsCard
@@ -90,7 +94,7 @@ class Index extends React.Component {
               statText="Just Updated"
             />
           </ItemGrid>
-        </Grid>
+        </Grid>) : undefined}
         <Grid container>
           <ItemGrid xs={12} sm={12} md={4}>
             <ChartCard
@@ -158,7 +162,7 @@ class Index extends React.Component {
             />
           </ItemGrid>
         </Grid>
-        <Grid container>
+        {admin > 0 ? (<Grid container>
           <ItemGrid xs={12} sm={12} md={6}>
             <TasksCard />
           </ItemGrid>
@@ -181,14 +185,17 @@ class Index extends React.Component {
               }
             />
           </ItemGrid>
-        </Grid>
+        </Grid>) : undefined}
       </div>
     );
   }
 }
 
 Index.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  admin: PropTypes.number.isRequired
 };
 
-export default withStyles(dashboardStyle)(Index);
+export default connect(state => ({
+  admin: state.loggedIn.admin
+}))(withStyles(dashboardStyle)(Index));

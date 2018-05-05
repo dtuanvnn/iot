@@ -70,18 +70,20 @@ router.post('/login', function (req, res, next) {
 		.select('-_id -user')
 		.exec(function(err, admin){
 			if (err) throw err
+			let isAdmin = 0
 			if (!admin) {
 				console.log('set admin')
-				req.session.isAdmin = -1
+				req.session.isAdmin = 0
 			} else {
 				req.session.isAdmin = admin.type
+				isAdmin = admin.type
 			}
 			return res.json({
 				message: "ok", 
 				user: {
 					token: token, 
 					userid: user._id, 
-					admin: admin.type,
+					admin: isAdmin,
 					username: user.name
 				}
 			});

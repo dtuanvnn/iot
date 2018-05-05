@@ -13,6 +13,59 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
+ .alert {
+    border: 0;
+    border-radius: 0.1875rem;
+    color: #FFFFFF;
+    padding-top: .9rem;
+    padding-bottom: .9rem;
+    position: relative; }
+.alert.alert-success {
+    background-color: #1be611; }
+.alert.alert-danger {
+    background-color: #ff5050; }
+.alert.alert-warning {
+    background-color: #ffbc50; }
+.alert.alert-info {
+    background-color: #46b3ff; }
+.alert.alert-primary {
+    background-color: #fa764b; }
+.alert i.fa,
+.alert i.now-ui-icons {
+    font-size: 20px; }
+.alert .close {
+    color: #FFFFFF;
+    opacity: .9;
+    text-shadow: none;
+    line-height: 0;
+    outline: 0; }
+    .alert .close span {
+    font-weight: 100;
+    font-size: 46px;
+    top: 50%;
+    left: 0;
+    position: absolute; }
+.alert span[data-notify="icon"] {
+    font-size: 22px;
+    display: block;
+    left: 19px;
+    position: absolute;
+    top: 50%;
+    margin-top: -11px; }
+.alert button.close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -13px;
+    width: 25px;
+    height: 25px;
+    padding: 3px; }
+.alert .close ~ span {
+    display: block;
+    max-width: 89%; }
+.alert.alert-with-icon {
+    padding-left: 65px; }  
+
 .ct-grid {
     stroke: rgba(255, 255, 255, 0.2);
     stroke-width: 1px;
