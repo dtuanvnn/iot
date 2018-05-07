@@ -9,7 +9,7 @@ import AddAlert from "@material-ui/icons/AddAlert";
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
-import { Header, Footer, Sidebar } from "components";
+import { Header, Footer, Sidebar, Snackbar} from "components";
 import appRoutes from "routes/app.jsx"
 import appStyle from "assets/jss/material-dashboard-react/appStyle.jsx";
 import image from "assets/img/sidebar-2.jpg";
@@ -38,6 +38,7 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      tl: false,
       mobileOpen: false,
       miniActive: false,
       image: image,
@@ -51,6 +52,7 @@ class App extends React.Component {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   }
   componentDidMount() {
+    this.showNotification("tl")
     /* this.notify("tl")
     this.notify("tl")
     this.notify("tl") */
@@ -69,6 +71,18 @@ class App extends React.Component {
   }
   sidebarMinimize() {
     this.setState({ miniActive: !this.state.miniActive });
+  }
+  showNotification(place) {
+    var x = [];
+    x[place] = true;
+    this.setState(x);
+    /* setTimeout(
+      function() {
+        x[place] = false;
+        this.setState(x);
+      }.bind(this),
+      6000
+    ); */
   }
   notify(place) {
     var color = Math.floor(Math.random() * 5 + 1);
@@ -118,6 +132,24 @@ class App extends React.Component {
     return (
       <div className={classes.wrapper}>
         <NotificationAlert ref="notificationAlert" />
+        <Snackbar
+          place="tl"
+          color="info"
+          icon={AddAlert}
+          message="Welcome to MATERIAL DASHBOARD React - a beautiful freebie for every web developer."
+          open={this.state.tl}
+          closeNotification={() => this.setState({ tl: false })}
+          close
+        />
+        {/* <Snackbar
+          place="tl"
+          color="info"
+          icon={AddAlert}
+          message="Welcome to MATERIAL DASHBOARD React - a beautiful freebie for every web developer."
+          open={this.state.tl}
+          closeNotification={() => this.setState({ tl: false })}
+          close
+        /> */}
         <Sidebar
           routes={appRoutes}
           logoText={"IOT"}
