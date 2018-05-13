@@ -21,6 +21,7 @@
     "express-validator": "*",
     "jsonwebtoken": "^8.2.1",
     "lodash": "^4.17.5",
+    "moment": "^2.22.1",
     "mongoose": "*",
     "mongoose-dbref": "0.0.4",
     "passport": "*",

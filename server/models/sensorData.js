@@ -9,7 +9,7 @@ var SensorDataSchema = mongoose.Schema({
 	soilTemp: Number,
 	soilHum: Number,
 	elecNeg: Number,
-	utc: Date,
+	utc: Number,
 	area: {
 		ref: 'Area',
 		type: Object

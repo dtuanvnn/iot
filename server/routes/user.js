@@ -7,7 +7,6 @@ var jwt = require('jsonwebtoken');
 var User = require('../models/user');
 var Area = require('../models/area');
 var Device = require('../models/device');
-var Events = require('../models/event');
 var SensorData = require('../models/sensorData');
 var Admin = require('../models/admin');
 
@@ -25,37 +24,6 @@ router.get('/sensordata', function(req, res){
 	.exec(function(err, sensorDatas){
 		if (err) throw err
 		res.json(sensorDatas)
-	})
-})
-
-// Event API
-router.get('/event', function(req, res){
-	var currentPage = req.query.page || 0;
-	var pageSize = 20
-
-	Events
-	.find()
-	.skip(pageSize*(Math.max(currentPage-1, 0)))
-	.limit(pageSize)
-	.select('type utc')
-	.exec(function(err, events){
-		if (err) throw err
-		res.json(events)
-	})
-})
-router.get('/event/detail', function(req, res){
-	if (!req.query.id){
-		return res.sendStatus(404)
-	}
-	Events
-	.findOne({'_id': req.query.id})
-	.select('-_id -_class')
-	.populate('sensor', '-_id -_class -area')
-	.populate('area', 'name')
-	.populate('user', 'name')
-	.exec(function(err, event){
-		if (err) throw err
-		res.json(event)
 	})
 })
 

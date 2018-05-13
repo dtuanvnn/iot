@@ -28,6 +28,7 @@ import {
   Table,
   ItemGrid,
   IconCard,
+  Button
 } from "components";
 
 import {
@@ -54,44 +55,33 @@ class Index extends React.Component {
     return (
       <div>
         {admin > 0 ? (
-        <Grid container>
-          <ItemGrid xs={12} sm={6} md={6} lg={3}>
-            <IconCard
-              icon={DateRange}
-              iconColor="rose"
-              title="From date"
-              content={
-                <div>
-                  <InputLabel className={classes.label}>Chọn ngày</InputLabel>
-                  <br />
+        <RegularCard
+         content={
+          <Grid container>
+          <ItemGrid xs={12} sm={12} md={12} lg={12}>
+            <table style={{marginBottom: 20}}>
+              <tr>
+                <td style={{paddingRight: 10}}>
                   <FormControl fullWidth>
                     <Datetime
                       timeFormat={false}
-                      inputProps={{ placeholder: "Date Picker Here" }}
+                      inputProps={{ placeholder: "Từ ngày" }}
                     />
                   </FormControl>
-                </div>
-              }
-            />
-          </ItemGrid>
-          <ItemGrid xs={12} sm={6} md={6} lg={3}>
-            <IconCard
-              icon={DateRange}
-              iconColor="rose"
-              title="To date"
-              content={
-                <div>
-                  <InputLabel className={classes.label}>Chọn ngày</InputLabel>
-                  <br />
+                </td>
+                <td style={{paddingLeft: 10}}>
                   <FormControl fullWidth>
                     <Datetime
                       timeFormat={false}
-                      inputProps={{ placeholder: "Date Picker Here" }}
+                      inputProps={{ placeholder: "Đến ngày" }}
                     />
                   </FormControl>
-                </div>
-              }
-            />  
+                </td>
+                <td style={{paddingLeft: 10}}>
+                  <Button color="primary">Lọc</Button>
+                </td>
+              </tr>
+            </table>
           </ItemGrid>
           <ItemGrid xs={12} sm={6} md={6} lg={3}>
             <StatsCard
@@ -144,7 +134,9 @@ class Index extends React.Component {
               statText="Just Updated"
             />
           </ItemGrid>
-        </Grid>) : undefined}
+          </Grid>
+         } />
+        ) : undefined}
         <Grid container>
           <ItemGrid xs={12} sm={12} md={4}>
             <ChartCard
