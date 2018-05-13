@@ -1,7 +1,8 @@
 import React from "react";
-import { Grid, InputLabel } from "material-ui";
+import { Grid, InputLabel, FormLabel } from "material-ui";
 import { Redirect, Link } from "react-router-dom"
-import callApi from 'util/apiCaller'
+import { API } from 'util/apiCaller'
+import axios from 'axios'
 
 import {
   RegularCard,
@@ -17,12 +18,8 @@ class Profile extends React.Component {
       userid: undefined,
       user: [],
       viewOnly: false,
-      redirect: false
+      redirect: ""
     }
-    this.handleViewDevices = this.handleViewDevices.bind(this)
-  }
-  handleViewDevices = (key) => {
-    this.setState({redirect: key})
   }
   componentDidMount() {
     if (this.props.location.state && this.props.location.state.viewOnly) {
@@ -32,31 +29,50 @@ class Profile extends React.Component {
     if (this.props.location.state && this.props.location.state.userid) {
       id = this.props.location.state.userid
     } else {
-      id = localStorage.getItem('userid')
+      id = localStorage.getItem('userId')
     }
     this.setState({userid: id})
-  	callApi('api/user/detail?id=' + id).then(res => {
+    this.setState({redirect: ""})
+  	API('api/user/detail?id=' + id).then(res => {
+      /* if (!res.ok) {
+        this.setState({redirect: "/pages/login"})
+        return
+      } */
   		this.setState({user: res})
     })
+    /* var token = 'Bearer ' + localStorage.getItem('token')
+    axios.get('http://localhost:3001/api/user/detail?id=' + id, { headers: { Authorization: token } })
+    .then(function(res){
+      console.log(res)
+    })
+    .catch(function (err) {
+      console.log(err)
+    }) */
   }
   render() {
     const {user, viewOnly, redirect, userid} = this.state
     const cartTitle = (viewOnly ? "View" : "Edit") + " Profile"
-    /* if (redirect) {
-      let url = "/devices/" + redirect
-      return <Redirect to={url} />
-    } */
+    if (redirect !== "") {
+      // let url = "/devices/" + redirect
+      return <Redirect to={redirect} />
+    }
     return (
       <div>
         <Grid container>
-          <ItemGrid xs={12} sm={12} md={8}>
+          <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
               cardTitle={cartTitle}
               cardSubtitle="Complete your profile"
               content={
-                <div>
+                <form>
                   <Grid container>
+                    <ItemGrid xs={12} sm={2} md={3}>
+                      <FormLabel /* className={classes.labelHorizontal} */>
+                        Required Text
+                      </FormLabel>
+                    </ItemGrid>
                     <ItemGrid xs={12} sm={12} md={3}>
+                      
                       <CustomInput
                         labelText={user.name}
                         id="username"
@@ -163,7 +179,7 @@ class Profile extends React.Component {
                       />
                     </ItemGrid>
                   </Grid> */}
-                </div>
+                </form>
               }
               footer={
                 <div>

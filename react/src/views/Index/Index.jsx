@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux"
+
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
+// react component plugin for creating a beautiful datetime dropdown picker
+import Datetime from "react-datetime";
 import {
   ContentCopy,
   Store,
@@ -14,7 +18,7 @@ import {
   AccessTime,
   Accessibility
 } from "@material-ui/icons";
-import { withStyles, Grid } from "material-ui";
+import { withStyles, Grid, InputLabel, FormControl } from "material-ui";
 
 import {
   StatsCard,
@@ -22,7 +26,8 @@ import {
   TasksCard,
   RegularCard,
   Table,
-  ItemGrid
+  ItemGrid,
+  IconCard,
 } from "components";
 
 import {
@@ -45,16 +50,59 @@ class Index extends React.Component {
     this.setState({ value: index });
   };
   render() {
+    const { classes, admin } = this.props
     return (
       <div>
+        {admin > 0 ? (
         <Grid container>
+          <ItemGrid xs={12} sm={6} md={6} lg={3}>
+            <IconCard
+              icon={DateRange}
+              iconColor="rose"
+              title="From date"
+              content={
+                <div>
+                  <InputLabel className={classes.label}>Chọn ngày</InputLabel>
+                  <br />
+                  <FormControl fullWidth>
+                    <Datetime
+                      timeFormat={false}
+                      inputProps={{ placeholder: "Date Picker Here" }}
+                    />
+                  </FormControl>
+                </div>
+              }
+            />
+          </ItemGrid>
+          <ItemGrid xs={12} sm={6} md={6} lg={3}>
+            <IconCard
+              icon={DateRange}
+              iconColor="rose"
+              title="To date"
+              content={
+                <div>
+                  <InputLabel className={classes.label}>Chọn ngày</InputLabel>
+                  <br />
+                  <FormControl fullWidth>
+                    <Datetime
+                      timeFormat={false}
+                      inputProps={{ placeholder: "Date Picker Here" }}
+                    />
+                  </FormControl>
+                </div>
+              }
+            />  
+          </ItemGrid>
           <ItemGrid xs={12} sm={6} md={6} lg={3}>
             <StatsCard
               icon={ContentCopy}
               iconColor="orange"
-              title="Used Space"
-              description="49/50"
-              small="GB"
+              title="Customers"
+              subheader="Registered/Online"
+              content="50"
+              subcontent="50 / 10"
+              description="10"
+              /* small="GB" */
               statIcon={Warning}
               statIconColor="danger"
               statLink={{ text: "Get More Space...", href: "#pablo" }}
@@ -64,7 +112,9 @@ class Index extends React.Component {
             <StatsCard
               icon={Store}
               iconColor="green"
-              title="Revenue"
+              title="Gateways"
+              subheader="Sold/Online"
+              subcontent="50 / 10"
               description="$34,245"
               statIcon={DateRange}
               statText="Last 24 Hours"
@@ -74,7 +124,9 @@ class Index extends React.Component {
             <StatsCard
               icon={InfoOutline}
               iconColor="red"
-              title="Fixed Issues"
+              title="Sensors"
+              subheader="Sold/Online"
+              subcontent="50 / 10"
               description="75"
               statIcon={LocalOffer}
               statText="Tracked from Github"
@@ -84,13 +136,15 @@ class Index extends React.Component {
             <StatsCard
               icon={Accessibility}
               iconColor="blue"
-              title="Followers"
+              title="Relays"
+              subheader="Sold/Online"
+              subcontent="50 / 10"
               description="+245"
               statIcon={Update}
               statText="Just Updated"
             />
           </ItemGrid>
-        </Grid>
+        </Grid>) : undefined}
         <Grid container>
           <ItemGrid xs={12} sm={12} md={4}>
             <ChartCard
@@ -158,19 +212,19 @@ class Index extends React.Component {
             />
           </ItemGrid>
         </Grid>
-        <Grid container>
+        {admin > 0 ? (<Grid container>
           <ItemGrid xs={12} sm={12} md={6}>
             <TasksCard />
           </ItemGrid>
           <ItemGrid xs={12} sm={12} md={6}>
             <RegularCard
               headerColor="orange"
-              cardTitle="Employees Stats"
-              cardSubtitle="New employees on 15th September, 2016"
+              cardTitle="Khách hàng đăng ký mới"
+              cardSubtitle={"Đến ngày "}
               content={
                 <Table
                   tableHeaderColor="warning"
-                  tableHead={["ID", "Name", "Salary", "Country"]}
+                  tableHead={["STT", "Tên", "Tỉnh/TP", "Quận/Huyện"]}
                   tableData={[
                     ["1", "Dakota Rice", "$36,738", "Niger"],
                     ["2", "Minerva Hooper", "$23,789", "Curaçao"],
@@ -181,14 +235,17 @@ class Index extends React.Component {
               }
             />
           </ItemGrid>
-        </Grid>
+        </Grid>) : undefined}
       </div>
     );
   }
 }
 
 Index.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  admin: PropTypes.number.isRequired
 };
 
-export default withStyles(dashboardStyle)(Index);
+export default connect(state => ({
+  admin: state.loggedIn.admin
+}))(withStyles(dashboardStyle)(Index));

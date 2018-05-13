@@ -53,6 +53,19 @@ const statsCardStyle = {
     ...defaultFont
   },
   cardTitle: {
+    color: "#FFFFFF",
+    marginTop: "0",
+    marginBottom: "5px",
+    ...defaultFont,
+    fontSize: "1.125em"
+  },
+  cardSubtitle: {
+    ...defaultFont,
+    marginBottom: "0",
+    color: "rgba(255, 255, 255, 0.62)",
+    margin: "0 0 10px"
+  },
+  cardContentTitle: {
     margin: "0",
     ...defaultFont,
     fontSize: "1.625em"

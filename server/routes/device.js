@@ -3,27 +3,52 @@ var router = express.Router();
 
 var Device = require('../models/device');
 var User = require('../models/user');
-var ensureAuthenticated = require('../functions/ensureAuthenticated')
+var ensureAdministrator = require('../functions/ensureAdministrator')
 
-var Handlebars = require("handlebars");
-var HandlebarsIntl = require('handlebars-intl');
-HandlebarsIntl.registerWith(Handlebars);
+// Device API
+/* router.get('/device', function(req, res) {
+	Device
+	.find()
+	.exec(function(err, devices){
+		if (err) throw err;
+		res.json(devices)
+	})
+}) */
+router.get('/', function(req, res) {
+	if (!req.query.id){
+		Device
+		.find()
+		.exec(function(err, devices){
+			if (err) throw err
+			res.json(devices)
+		})
+	} else {
+		Device
+		.find({'user.$id': req.query.id})
+		.exec(function(err, devices){
+			if (err) throw err
+			res.json(devices)
+		})
+	}
+})
+router.get('/detail', function(req, res) {
+	if (!req.query.id){
+		return res.sendStatus(404)
+	}
+	Device
+	.findOne({'_id':req.query.id})
+	.select('-_id -_class')
+	.populate('user', 'name')
+	.populate('area', 'name')
+	.populate('outputs', '-_id -_class -user -area -control')
+	.exec(function(err, device){
+		if (err) throw err;
+		res.json(device)
+	});
+})
 
-Handlebars.registerHelper("switch", function(value, options) {
-  this._switch_value_ = value;
-  var html = options.fn(this); // Process the body of the switch block
-  delete this._switch_value_;
-  return html;
-});
 
-Handlebars.registerHelper("case", function(value, options) {
-  if (value == this._switch_value_) {
-    return options.fn(this);
-  }
-});
-
-
-// List all devices of user id
+/* // List all devices of user id
 router.get('/', function(req, res){
   var userId = req.query.id
   if (userId) {
@@ -58,6 +83,6 @@ router.get('/detail', function(req, res) {
 		if (err) throw err;
 		res.send(JSON.stringify(device))
 	});
-})
+}) */
 
 module.exports = router

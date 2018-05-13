@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var uuidv4 = require('uuid/v4');
+
 var jwt = require('jsonwebtoken');
 
 var User = require('../models/user');
@@ -11,31 +11,7 @@ var Events = require('../models/event');
 var SensorData = require('../models/sensorData');
 var Admin = require('../models/admin');
 
-//var ensureAuthenticated = require('../functions/ensureAuthenticated')
-
-// Admin API
-router.get('/checkAdmin', function(req, res){
-	if (req.session.isAdmin) {
-		return res.json("You are admin " + req.session.isAdmin)
-	}
-	if (!req.query.id) {
-		return res.sendStatus(404)
-	}
-	var userId = req.query.id
-	Admin
-	.findOne({'user':userId})
-	.select('-_id -user')
-	.exec(function(err, admin){
-		if (err) throw err
-
-		if (!admin) {
-			res.sendStatus(403)
-		} else {
-			req.session.isAdmin = admin.type
-			res.json(admin)
-		}
-	})
-})
+var ensureAdministrator = require('../functions/ensureAdministrator')
 
 // SensorData API
 router.get('/sensordata', function(req, res){
@@ -84,7 +60,8 @@ router.get('/event/detail', function(req, res){
 })
 
 // User API
-router.get('/user', function(req, res){
+router.get('/list', function(req, res, next){
+	console.log(req.query)
 	let queryString = {}
 	if (req.query.city) {
 		queryString.city = req.query.city
@@ -96,11 +73,11 @@ router.get('/user', function(req, res){
 	.find(queryString)
 	.select('name email phoneNumber lastAccess')
 	.exec(function(err, users){
-		if (err) throw err
-		res.json(users)
+		if (err) next(err)
+		return res.status(200).json(users)
 	})
 })
-router.get('/user/filter', function(req, res){
+router.get('/filter', function(req, res){
 	if (!req.query){
 		return res.sendStatus(404)
 	}
@@ -112,7 +89,7 @@ router.get('/user/filter', function(req, res){
 		res.json(users)
 	})
 })
-router.get('/user/detail', function(req, res){
+router.get('/detail', function(req, res){
 	if (!req.query.id){
 		return res.sendStatus(404)
 	}
@@ -155,88 +132,6 @@ router.get('/area/detail', function(req, res) {
 		res.json(area)
 	})
 })
-
-// Device API
-/* router.get('/device', function(req, res) {
-	Device
-	.find()
-	.exec(function(err, devices){
-		if (err) throw err;
-		res.json(devices)
-	})
-}) */
-router.get('/device', function(req, res) {
-	if (!req.query.id){
-		Device
-		.find()
-		.exec(function(err, devices){
-			if (err) throw err;
-			res.json(devices)
-		})
-	} else {
-		Device
-		.find({'user.$id': req.query.id})
-		.exec(function(err, devices){
-			if (err) throw err;
-			res.json(devices)
-		})
-	}
-})
-router.get('/device/detail', function(req, res) {
-	if (!req.query.id){
-		return res.sendStatus(404)
-	}
-	Device
-	.findOne({'_id':req.query.id})
-	.select('-_id -_class')
-	.populate('user', 'name')
-	.populate('area', 'name')
-	.populate('outputs', '-_id -_class -user -area -control')
-	.exec(function(err, device){
-		if (err) throw err;
-		res.json(device)
-	});
-})
-
-// Register User
-router.post('/register', passport.authenticate('jwt', { session: false }), function(req, res){
-	var name = req.body.name;
-	var email = req.body.email;
-	var password = req.body.password;
-	var password2 = req.body.password2;
-
-	// Validation
-	req.checkBody('name', 'Name is required').notEmpty();
-	req.checkBody('email', 'Email is required').notEmpty();
-	req.checkBody('email', 'Email is not valid').isEmail();
-	req.checkBody('password', 'Password is required').notEmpty();
-	req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-
-	var errors = req.validationErrors();
-
-	if(errors){
-		res.render('register',{
-			errors:errors
-		});
-	} else {
-		var newUser = new User({
-			name: name,
-			email:email,
-			password: password,
-			phoneNumber: '0001212',
-			_id: uuidv4()
-		});
-
-		User.createUser(newUser, function(err, user){
-			if(err) throw err;
-			console.log(user);
-		});
-
-		req.flash('success_msg', 'You are registered and can now login');
-
-		res.redirect('/login');
-	}
-});
 
 /*
 router.post('/login', function (req, res, next) {

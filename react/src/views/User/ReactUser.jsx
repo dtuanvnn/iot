@@ -14,7 +14,7 @@ import IconButton from "components/CustomButtons/IconButton.jsx"
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/extendedFormsStyle.jsx";
 
-import callApi from 'util/apiCaller'
+import { API } from 'util/apiCaller'
 
 class ReactTables extends React.Component{
   constructor(props){
@@ -40,12 +40,12 @@ class ReactTables extends React.Component{
     })
   }
   fetchUsers = () => {
-    let cityValue =  this.state.city === "" ? "" : this.state.cities[this.state.city]
-    let districtValue =  this.state.district === "" ? "" : this.state.districts[this.state.district]
+    let cityValue =  this.state.city === "" ? "" : "city=" + this.state.cities[this.state.city]
+    let districtValue =  this.state.district === "" ? "" : "&district=" + this.state.districts[this.state.district]
     let params = ""
-    params += "?city=" + cityValue
-    params += "&district=" + districtValue
-    callApi('api/user' + params).then(res => {
+    params += cityValue
+    params += "" + districtValue
+    API('api/user/list?' + params).then(res => {
   		var data = res.map((user,key) => {
         user['actions'] = (
           <div className="actions-right">
@@ -70,10 +70,10 @@ class ReactTables extends React.Component{
   	})
   }
   componentDidMount() {
-    callApi('api/user/filter?id=city').then(res => {
+    API('api/user/filter?id=city').then(res => {
   		this.setState({cities: res})
     })
-    callApi('api/user/filter?id=district').then(res => {
+    API('api/user/filter?id=district').then(res => {
   		this.setState({districts: res})
     })
   	this.fetchUsers()
@@ -82,7 +82,7 @@ class ReactTables extends React.Component{
     const { classes } = this.props;
     const {users, cities, districts, redirect, city, district} = this.state
     if (redirect) {
-      let url = "/users/" + redirect
+      let url = "api/user/detail" + redirect
       return <Redirect to={url} />
     }
     return (

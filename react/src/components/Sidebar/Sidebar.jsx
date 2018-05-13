@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux"
 import cx from "classnames";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -18,6 +19,7 @@ import {
 import { HeaderLinks } from "components";
 
 import sidebarStyle from "assets/jss/material-dashboard-react/sidebarStyle.jsx";
+import avatar from "assets/img/faces/marc.jpg";
 
 let ps
 class SidebarWrapper extends React.Component {
@@ -50,6 +52,7 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      openAvatar: false,
       openUsers: this.activeRoute("/users"),
       miniActive: true
     };
@@ -65,7 +68,7 @@ class Sidebar extends React.Component {
     this.setState(st);
   }
   render() {
-    const { classes, color, logo, image, logoText, routes, bgColor } = this.props;
+    const { classes, color, logo, image, logoText, routes, bgColor, isAdmin, username } = this.props;
     const itemText =
       classes.itemText +
       " " +
@@ -82,7 +85,95 @@ class Sidebar extends React.Component {
     const userWrapperClass = classes.user
     const caret = classes.caret
     const collapseItemMini = classes.collapseItemMini
-    var links = (
+    var user = (
+      <div className={userWrapperClass}>
+        <div className={classes.photo}>
+          <img src={avatar} className={classes.avatarImg} alt="..." />
+        </div>
+        <List className={classes.list}>
+          <ListItem className={classes.item + " " + classes.userItem}>
+            <NavLink
+              to={"#"}
+              className={classes.itemLink + " " + classes.userCollapseButton}
+              onClick={() => this.openCollapse("openAvatar")}
+            >
+              <ListItemText
+                primary={username}
+                secondary={
+                  <b
+                    className={
+                      caret + " " + classes.userCaret +
+                      " " +
+                      (this.state.openAvatar ? classes.caretActive : "")
+                    }
+                  />
+                }
+                disableTypography={true}
+                className={itemText + " " + classes.userItemText}
+              />
+            </NavLink>
+            <Collapse in={this.state.openAvatar} unmountOnExit>
+              <List className={classes.list + " " + classes.collapseList}>
+                <ListItem className={classes.collapseItem}>
+                  <NavLink
+                    to="/users/profile"
+                    className={
+                      classes.itemLink + " " + classes.userCollapseLinks
+                    }
+                  >
+                    <span className={collapseItemMini}>
+                      {"MP"}
+                    </span>
+                    <ListItemText
+                      primary={"My Profile"}
+                      disableTypography={true}
+                      className={collapseItemText}
+                    />
+                  </NavLink>
+                </ListItem>
+                <ListItem className={classes.collapseItem}>
+                  <NavLink
+                    to="#"
+                    className={
+                      classes.itemLink + " " + classes.userCollapseLinks
+                    }
+                  >
+                    <span className={collapseItemMini}>
+                      {"EP"}
+                    </span>
+                    <ListItemText
+                      primary={
+                        "Edit Profile"
+                      }
+                      disableTypography={true}
+                      className={collapseItemText}
+                    />
+                  </NavLink>
+                </ListItem>
+                <ListItem className={classes.collapseItem}>
+                  <NavLink
+                    to="#"
+                    className={
+                      classes.itemLink + " " + classes.userCollapseLinks
+                    }
+                  >
+                    <span className={collapseItemMini}>
+                      {"S"}
+                    </span>
+                    <ListItemText
+                      primary={"Settings"}
+                      disableTypography={true}
+                      className={collapseItemText}
+                    />
+                  </NavLink>
+                </ListItem>
+              </List>
+            </Collapse>
+          </ListItem>
+        </List>
+      </div>
+    )
+    var links = (isAdmin ? 
       <List className={classes.list}>
         {routes.map((prop, key) => {
           if (prop.redirect) return null;
@@ -202,7 +293,7 @@ class Sidebar extends React.Component {
             </ListItem>
           );
         })}
-      </List>
+      </List> : undefined
     );
     const logoNormal =
       classes.logoNormal +
@@ -263,6 +354,7 @@ class Sidebar extends React.Component {
             <SidebarWrapper
               className={sidebarWrapper}
               headerLinks={<HeaderLinks />}
+              user={user}
               links={links}
             />
           </Drawer>
@@ -281,6 +373,7 @@ class Sidebar extends React.Component {
             {brand}
             <SidebarWrapper
               className={sidebarWrapper}
+              user={user}
               links={links}
             />
           </Drawer>
@@ -298,7 +391,17 @@ Sidebar.propTypes = {
   logo: PropTypes.string,
   logoText: PropTypes.string,
   image: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object)
+  routes: PropTypes.arrayOf(PropTypes.object),
+  isAdmin: PropTypes.bool.isRequired,
+  username: PropTypes.string.isRequired
 };
 
-export default withStyles(sidebarStyle)(Sidebar);
+const mapStateToProps = (state, ownProps) => {
+  const { loggedIn } = state
+  return {
+      isAdmin: loggedIn.admin > 0,
+      username: loggedIn.username
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(sidebarStyle)(Sidebar));

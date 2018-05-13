@@ -1,13 +1,11 @@
 import React from 'react';
 import { Route,  Redirect } from 'react-router-dom'
+import { connect } from "react-redux"
 
-const checkToken = () => {
-  return localStorage.getItem('token') !== null
-}
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => (
   <Route {...rest} 
     render={props =>
-      checkToken()? (
+      isLoggedIn ? (
         <Component {...props} />
       ) : (
         <Redirect to={{
@@ -16,8 +14,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
           }}
         />
       )
-    }
+  }
   />
 )
 
-export default PrivateRoute;
+const mapStateToProps = (state, ownProps) => {
+  const { loggedIn } = state
+  return {
+      isLoggedIn: loggedIn.token
+  };
+};
+
+export default connect(mapStateToProps)(PrivateRoute);

@@ -10,7 +10,7 @@ import ItemGrid from "components/Grid/ItemGrid.jsx"
 import IconCard from "components/Cards/IconCard.jsx"
 import IconButton from "components/CustomButtons/IconButton.jsx"
 
-import callApi from 'util/apiCaller'
+import { API } from 'util/apiCaller'
 
 class DeviceList extends React.Component{
   constructor(props){
@@ -32,7 +32,7 @@ class DeviceList extends React.Component{
       id = localStorage.getItem('userid')
     }
     let url = "api/device" + (id ? ("?id=" + id) : "")
-  	callApi(url).then(res => {
+  	API(url).then(res => {
   		var data = res.map((device,key) => {
         device['actions'] = (
           <div className="actions-right">

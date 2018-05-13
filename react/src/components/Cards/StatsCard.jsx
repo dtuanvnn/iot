@@ -15,6 +15,9 @@ function StatsCard({ ...props }) {
   const {
     classes,
     title,
+    subheader,
+    content,
+    subcontent,
     description,
     statLink,
     small,
@@ -27,20 +30,24 @@ function StatsCard({ ...props }) {
       <CardHeader
         classes={{
           root: classes.cardHeader + " " + classes[iconColor + "CardHeader"],
-          avatar: classes.cardAvatar
+          avatar: classes.cardAvatar,
+          title: classes.cardTitle,
+          subheader: classes.cardSubtitle
         }}
+        title={title}
+        /* subheader={subheader} */
         avatar={<props.icon className={classes.cardIcon} />}
       />
       <CardContent className={classes.cardContent}>
         <Typography component="p" className={classes.cardCategory}>
-          {title}
+          {subheader}
         </Typography>
         <Typography
           variant="headline"
           component="h2"
-          className={classes.cardTitle}
+          className={classes.cardContentTitle}
         >
-          {description}{" "}
+          {subcontent}{" "}
           {small !== undefined ? (
             <small className={classes.cardTitleSmall}>{small}</small>
           ) : null}
@@ -78,6 +85,9 @@ StatsCard.propTypes = {
   icon: PropTypes.func.isRequired,
   iconColor: PropTypes.oneOf(["orange", "green", "red", "blue", "purple"]),
   title: PropTypes.node,
+  subheader: PropTypes.node,
+  content: PropTypes.node,
+  subcontent: PropTypes.node,
   description: PropTypes.node,
   small: PropTypes.node,
   statIcon: PropTypes.func.isRequired,
