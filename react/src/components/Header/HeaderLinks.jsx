@@ -168,11 +168,11 @@ class HeaderLinks extends React.Component {
         </Tooltip>
         <Manager style={{ display: "inline-block" }}>
           <Target>
-            <Badge
+            {/* <Badge
               badgeContent={5}
               primary={true}
               badgeStyle={classes.notifications}
-            >
+            > */}
             <IconButton
               color="inherit"
               aria-label="Notifications"
@@ -182,7 +182,7 @@ class HeaderLinks extends React.Component {
               className={classes.buttonLink}
             >
               <Notifications className={classes.links} />
-              {/* <span className={classes.notifications}>5</span> */}
+              {<span className={classes.notifications}>5</span>}
               <Hidden mdUp>
                 <p onClick={this.handleClick} className={classes.linkText}>
                   Notification
@@ -190,7 +190,7 @@ class HeaderLinks extends React.Component {
               </Hidden>
             </IconButton>
             
-            </Badge>
+            {/* </Badge> */}
           </Target>
           <Popper
             placement="bottom-start"

@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import cx from "classnames"
 import { Switch, Redirect } from "react-router-dom";
-// react plugin for creating notifications over the dashboard
-import NotificationAlert from "react-notification-alert";
 import AddAlert from "@material-ui/icons/AddAlert";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
@@ -76,13 +74,13 @@ class App extends React.Component {
     var x = [];
     x[place] = true;
     this.setState(x);
-    /* setTimeout(
+    setTimeout(
       function() {
         x[place] = false;
         this.setState(x);
       }.bind(this),
       6000
-    ); */
+    );
   }
   notify(place) {
     var color = Math.floor(Math.random() * 5 + 1);
@@ -131,12 +129,11 @@ class App extends React.Component {
       });
     return (
       <div className={classes.wrapper}>
-        <NotificationAlert ref="notificationAlert" />
         <Snackbar
           place="tl"
           color="info"
           icon={AddAlert}
-          message="Welcome to MATERIAL DASHBOARD React - a beautiful freebie for every web developer."
+          message="Cái này là notification."
           open={this.state.tl}
           closeNotification={() => this.setState({ tl: false })}
           close

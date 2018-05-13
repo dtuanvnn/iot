@@ -24,6 +24,7 @@ router.post('/register',
 passport.authenticate('jwt', { session: false }),
 ensureAdministrator, 
 function(req, res){
+	console.log(req.body)
 	var name = req.body.name
 	var email = req.body.email
 	var password = req.body.password

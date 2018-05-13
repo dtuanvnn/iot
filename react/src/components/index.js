@@ -7,6 +7,7 @@ import ProfileCard from "./Cards/ProfileCard.jsx";
 import RegularCard from "./Cards/RegularCard.jsx";
 import StatsCard from "./Cards/StatsCard.jsx";
 import TasksCard from "./Cards/TasksCard.jsx";
+import IconCard from "./Cards/IconCard.jsx";
 
 // ##############################
 // // // CustomButtons
@@ -88,6 +89,7 @@ export {
   RegularCard,
   StatsCard,
   TasksCard,
+  IconCard,
   // CustomButtons
   Button,
   IconButton,

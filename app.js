@@ -27,7 +27,7 @@ app.use(cookieParser(cookieSecretKey));
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'react/build')));
 
 // Express Session
 app.use(session({
