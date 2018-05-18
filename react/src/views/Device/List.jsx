@@ -9,6 +9,7 @@ import GridContainer from "components/Grid/GridContainer.jsx"
 import ItemGrid from "components/Grid/ItemGrid.jsx"
 import IconCard from "components/Cards/IconCard.jsx"
 import IconButton from "components/CustomButtons/IconButton.jsx"
+import { Switch } from "material-ui"
 
 import { API } from 'util/apiCaller'
 
@@ -34,6 +35,23 @@ class DeviceList extends React.Component{
     let url = "api/device" + (id ? ("?id=" + id) : "")
   	API(url).then(res => {
   		var data = res.map((device,key) => {
+        device['checkEnable'] = (
+          <div>
+            <Switch
+              checked={device['enable']}
+              value="checkedEnable"
+            />
+          </div>
+        )
+        device['checkStatus'] = (
+          <div>
+            <Switch
+              checked={device['status']}
+              value="checkedStatus"
+            />
+          </div>
+        )
+
         device['actions'] = (
           <div className="actions-right">
             {/* <IconButton
@@ -79,11 +97,11 @@ class DeviceList extends React.Component{
                   },
                   {
                     Header: "Status",
-                    accessor: "status"
+                    accessor: "checkStatus"
                   },
                   {
                     Header: "Enable",
-                    accessor: "enable"
+                    accessor: "checkEnable"
                   },
                   {
                     Header: "Action",

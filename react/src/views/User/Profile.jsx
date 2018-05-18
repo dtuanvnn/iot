@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux"
 import { Grid, InputLabel, FormLabel } from "material-ui";
 import { Redirect, Link } from "react-router-dom"
 import { API } from 'util/apiCaller'
@@ -29,7 +31,11 @@ class Profile extends React.Component {
     if (this.props.location.state && this.props.location.state.userid) {
       id = this.props.location.state.userid
     } else {
-      id = localStorage.getItem('userId')
+      id = this.props.userId
+    }
+    if (id == null) {
+      this.setState({redirect: "/"})
+      return
     }
     this.setState({userid: id})
     this.setState({redirect: ""})
@@ -52,13 +58,128 @@ class Profile extends React.Component {
   render() {
     const {user, viewOnly, redirect, userid} = this.state
     const cartTitle = (viewOnly ? "View" : "Edit") + " Profile"
+    const labelHorizontal = {
+      color: "rgba(0, 0, 0, 0.26)",
+      cursor: "pointer",
+      display: "inline-flex",
+      fontSize: "14px",
+      lineHeight: "1.428571429",
+      fontWeight: "400",
+      paddingTop: "39px",
+      marginRight: "0",
+      "@media (min-width: 992px)": {
+        float: "right"
+      }
+    }
     if (redirect !== "") {
       // let url = "/devices/" + redirect
       return <Redirect to={redirect} />
     }
     return (
-      <div>
         <Grid container>
+        <ItemGrid xs={12} sm={12} md={12}>
+        <RegularCard
+            cardTitle="Form Elements"
+            headerColor="rose"
+            content={
+              <form>
+                <Grid container>
+                  <ItemGrid xs={12} sm={2}>
+                    <FormLabel style={labelHorizontal}>
+                      User name
+                    </FormLabel>
+                  </ItemGrid>
+                  <ItemGrid xs={12} sm={10}>
+                    <CustomInput
+                      id="username"
+                      labelText={user.name}
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        disabled: true
+                      }}
+                      helpText="A block of help text that breaks onto a new line."
+                    />
+                  </ItemGrid>
+                </Grid>
+                <Grid container>
+                  <ItemGrid xs={12} sm={2}>
+                    <FormLabel style={labelHorizontal}>
+                      Email
+                    </FormLabel>
+                  </ItemGrid>
+                  <ItemGrid xs={12} sm={10}>
+                    <CustomInput
+                      id="pass"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "text",
+                        disabled: true
+                      }}
+                    />
+                  </ItemGrid>
+                </Grid>
+                <Grid container>
+                  <ItemGrid xs={12} sm={2}>
+                    <FormLabel style={labelHorizontal}>
+                      Placeholder
+                    </FormLabel>
+                  </ItemGrid>
+                  <ItemGrid xs={12} sm={10}>
+                    <CustomInput
+                      id="placeholder"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        placeholder: "placeholder",
+                        disabled: true
+                      }}
+                    />
+                  </ItemGrid>
+                </Grid>
+                <Grid container>
+                  <ItemGrid xs={12} sm={2}>
+                    <FormLabel style={labelHorizontal}>
+                      Disabled
+                    </FormLabel>
+                  </ItemGrid>
+                  <ItemGrid xs={12} sm={10}>
+                    <CustomInput
+                      id="disabled"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        placeholder: "Disabled",
+                        disabled: true
+                      }}
+                    />
+                  </ItemGrid>
+                </Grid>
+                <Grid container>
+                  <ItemGrid xs={12} sm={2}>
+                    <FormLabel style={labelHorizontal}>
+                      Static control
+                    </FormLabel>
+                  </ItemGrid>
+                  <ItemGrid xs={12} sm={10}>
+                    <div >
+                      <p >
+                        hello@creative-tim.com
+                      </p>
+                    </div>
+                  </ItemGrid>
+                </Grid>
+                </form>}
+                />
+        </ItemGrid>
+        </Grid>)
+        {/* <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
               cardTitle={cartTitle}
@@ -67,7 +188,7 @@ class Profile extends React.Component {
                 <form>
                   <Grid container>
                     <ItemGrid xs={12} sm={2} md={3}>
-                      <FormLabel /* className={classes.labelHorizontal} */>
+                      <FormLabel className={classes.labelHorizontal} >
                         Required Text
                       </FormLabel>
                     </ItemGrid>
@@ -161,7 +282,7 @@ class Profile extends React.Component {
                       />
                     </ItemGrid>
                   </Grid>
-                  {/* <Grid container>
+                  <Grid container>
                     <ItemGrid xs={12} sm={12} md={12}>
                       <InputLabel style={{ color: "#AAAAAA" }}>
                         About me
@@ -178,7 +299,7 @@ class Profile extends React.Component {
                         }}
                       />
                     </ItemGrid>
-                  </Grid> */}
+                  </Grid>
                 </form>
               }
               footer={
@@ -192,9 +313,19 @@ class Profile extends React.Component {
             />
           </ItemGrid>
         </Grid>
-      </div>
-    );
+      </div>*/}
   }
 }
 
-export default Profile;
+Profile.propTypes = {
+  userId: PropTypes.string.isRequired
+}
+
+const mapStateTOProps = (state) => {
+  const {loggedIn} = state
+  return  {
+    userId: loggedIn.userId
+  }
+}
+
+export default connect(mapStateTOProps)(Profile);

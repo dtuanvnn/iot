@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 import { Redirect, Link } from "react-router-dom"
-import { withStyles, Select, MenuItem, FormControl, InputLabel } from "material-ui"
+import { withStyles, Select, MenuItem, FormControl, InputLabel, Switch } from "material-ui"
 // @material-ui/icons
 import { Assignment, Dvr, Favorite, Close } from "@material-ui/icons"
 // core components
@@ -47,6 +47,14 @@ class ReactTables extends React.Component{
     params += "" + districtValue
     API('api/user/list?' + params).then(res => {
   		var data = res.map((user,key) => {
+        user['checkStatus'] = (
+          <div>
+            <Switch
+              checked={false}
+              value="checkedStatus"
+            />
+          </div>
+        )
         user['actions'] = (
           <div className="actions-right">
             {/* <IconButton
@@ -55,6 +63,9 @@ class ReactTables extends React.Component{
               customClass="edit">
               <Dvr />
             </IconButton> */}
+            <Link customClass="edit" to={{ pathname: "devices/", state: { userid: user._id, viewOnly: true} }}>
+            <Favorite />
+            </Link>
             <Link to={{ pathname: "profile/", state: { userid: user._id, viewOnly: true} }}>
             <Dvr />
             </Link>
@@ -176,6 +187,10 @@ class ReactTables extends React.Component{
                   {
                     Header: "Last Access",
                     accessor: "lastAccess"
+                  },
+                  {
+                    Header: "Status",
+                    accessor: "checkStatus"
                   },
                   {
                     Header: "Action",

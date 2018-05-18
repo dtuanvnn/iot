@@ -60,7 +60,7 @@ class SensorHistory extends React.Component{
         <ItemGrid xs={12}>
           <IconCard
             icon={Assignment}
-            title="Notification History Table"
+            title="Sensors History Table"
             content={
               <ReactTable
                 manual
@@ -91,7 +91,7 @@ class SensorHistory extends React.Component{
                     accessor: "soilHum"
                   },
                   {
-                    Header: "Electric Negative",
+                    Header: "Độ dẫn điện",
                     accessor: "elecNeg"
                   },
                   {

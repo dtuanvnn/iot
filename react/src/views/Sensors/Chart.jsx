@@ -75,10 +75,12 @@ class SensorCharts extends React.Component {
     let url = "api/history/sensor/filter" + (params ? ("?"+params) : "")
     API(url).then(res => {
       var airHumData = {labels: [], series: [[]]}
-      res.data.forEach((sensor, key) => {
-        airHumData.labels.push(sensor.utc.toString())
-        airHumData.series[0].push(sensor.airHum)
-      })
+      if (res && res.data) {
+        res.data.forEach((sensor, key) => {
+          airHumData.labels.push(sensor.utc.toString())
+          airHumData.series[0].push(sensor.airHum)
+        })
+      }
 
   		this.setState({
         sensors: res.data,

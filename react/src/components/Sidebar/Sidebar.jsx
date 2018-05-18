@@ -116,7 +116,7 @@ class Sidebar extends React.Component {
               <List className={classes.list + " " + classes.collapseList}>
                 <ListItem className={classes.collapseItem}>
                   <NavLink
-                    to="/users/profile"
+                    to="/profile"
                     className={
                       classes.itemLink + " " + classes.userCollapseLinks
                     }
@@ -177,6 +177,7 @@ class Sidebar extends React.Component {
       <List className={classes.list}>
         {routes.map((prop, key) => {
           if (prop.redirect) return null;
+          if (prop.hidden) return null;
           if (prop.collapse) {
             const navLinkClasses =
               classes.itemLink +

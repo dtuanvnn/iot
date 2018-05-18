@@ -4,6 +4,7 @@ import SensorHistory from "views/Sensors/History.jsx";
 import SensorChart from "views/Sensors/Chart.jsx";
 import UserReactPage from "views/User/ReactUser.jsx";
 import UserListPage from "views/User/Lists.jsx";
+import UserProfilePage from "views/User/Profile.jsx";
 import DeviceListPage from "views/Device/List.jsx"
 // @material-ui/icons
 import { Dashboard, PermIdentity } from "@material-ui/icons"
@@ -22,6 +23,14 @@ const appRoutes = [
     navbarName: "User List",
     icon: PermIdentity,
     component: UserReactPage
+  },
+  {
+    path: "/profile",
+    name: "User Profile",
+    navbarName: "IOT Users",
+    icon: PermIdentity,
+    hidden: true,
+    component: UserProfilePage
   },
   /* {
     collapse: true,

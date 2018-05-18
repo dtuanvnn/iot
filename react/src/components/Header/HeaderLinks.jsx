@@ -130,7 +130,7 @@ class HeaderLinks extends React.Component {
     return (
       <div>
         {alert}
-        <CustomInput
+        {/* <CustomInput
           formControlProps={{
             className: classes.margin + " " + classes.search
           }}
@@ -140,14 +140,14 @@ class HeaderLinks extends React.Component {
               "aria-label": "Search"
             }
           }}
-        />
-        <SearchButton
+        /> */}
+        {/* <SearchButton
           color="white"
           aria-label="edit"
           customClass={classes.margin + " " + classes.searchButton}
         >
           <Search className={classes.searchIcon} />
-        </SearchButton>
+        </SearchButton> */}
         <Tooltip
           id="tooltip-top"
           title="Dashboard"
