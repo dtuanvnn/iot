@@ -30,9 +30,54 @@ router.get('/sensor', function(req, res){
 router.get('/sensor/filter', function(req, res){
   var startDate = req.query.startDate || Date.now
   var endDate = req.query.endDate || Date.now + 1
-  console.log(Date.now)
-  console.log(Date.now + 1)
+  console.log(startDate)
+  console.log(endDate)
+
   SensorData
+  .aggregate([
+    { $match: {
+        'utc': { 
+          $gte: startDate,
+          $lte: endDate 
+        } 
+      } 
+    },
+    { $group: {
+        _id: { 
+            year: { $year : { $add: [ new Date(0), "$utc"]}},
+            month: { $month : { $add: [ new Date(0), "$utc"]}},
+            day: { $dayOfMonth : { $add: [ new Date(0), "$utc"]}},
+            hour: { $hour : { $add: [ new Date(0), "$utc"]}}
+        },
+        airTemp: { $avg: "$airTemp" },
+        airHum: { $avg: "$airHum" },
+        soilTemp: { $avg: "$soilTemp" },
+        soilHum: { $avg: "$soilHum" },
+        elecNeg: { $avg: "$elecNeg" },
+        
+        first: { $min: "$utc" }
+      }
+    },
+    { $sort: {_id: 1} },
+    { $project: { 
+        date: { $add: [ new Date(0), "$first" ]}, 
+        airTemp: { $divide: [{ $trunc: { $multiply: ["$airTemp", 100]}}, 100]}, 
+        airHum: { $divide: [{ $trunc: { $multiply: ["$airHum", 100]}}, 100]}, 
+        soilTemp: { $divide: [{ $trunc: { $multiply: ["$soilTemp", 100]}}, 100]}, 
+        soilHum: { $divide: [{ $trunc: { $multiply: ["$soilHum", 100]}}, 100]},
+        elecNeg: { $divide: [{ $trunc: { $multiply: ["$elecNeg", 100]}}, 100]},
+        _id: 1
+      } 
+    }
+  ])
+  .exec(function (err, sensors) {
+    if (err) throw err
+    res.json({
+      data: sensors
+    })
+  })
+
+  /* SensorData
   .find({"utc": {
     $gt: startDate,
     $lt: endDate
@@ -43,7 +88,7 @@ router.get('/sensor/filter', function(req, res){
     res.json({
       data: sensors
     })
-  })
+  }) */
 })
 
 // Event API
