@@ -19,7 +19,7 @@ export const failedLogout = (message) => ({
 })
 export const fetchLogout = () => dispatch => {
   dispatch(requestLogout())
-  return axios.post('http://localhost:3001/logout')
+  return axios.post('http://27.72.145.192:3001/logout')
   .then(
     res => 
     dispatch(receiveLogout(res.message)))

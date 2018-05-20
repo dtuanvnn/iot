@@ -10,9 +10,9 @@ var mongoose = require('mongoose');
 
 var mongoDBLink = 'mongodb+srv://admin:store@iot-oqebc.mongodb.net/iot';
 var uri = "mongodb://admin:store@iot-shard-00-00-oqebc.mongodb.net:27017,iot-shard-00-01-oqebc.mongodb.net:27017,iot-shard-00-02-oqebc.mongodb.net:27017/iot?ssl=true&replicaSet=iot-shard-0&authSource=admin";
-
+var iotserver = "mongodb://27.72.145.192:27017/iot"
 var localDB = 'mongodb://localhost/iot'
-mongoose.connect(uri);
+mongoose.connect(localDB);
 var db = mongoose.connection;
 
 // Init App
@@ -102,6 +102,9 @@ app.use('/', index)
 app.use('/api/user', user)
 app.use('/api/device', device)
 app.use('/api/history', history)
+
+/* app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'react/build', 'index.html')) */
 
 // Set Port
 app.set('port', (process.env.PORT || 3001));

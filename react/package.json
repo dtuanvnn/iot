@@ -4,6 +4,7 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
+    "@amcharts/amcharts3-react": "^3.1.0",
     "@material-ui/icons": "1.0.0-beta.42",
     "axios": "^0.18.0",
     "chartist": "0.10.1",
@@ -26,6 +27,7 @@
     "react-swipeable-views": "0.12.12",
     "react-table": "^6.8.2",
     "reactstrap": "^6.0.1",
+    "recharts": "^1.0.0-beta.10",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0"
   },
@@ -35,5 +37,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3001/"
+  "proxy": "http://27.72.145.192:3001/"
 }

@@ -1,6 +1,8 @@
 import React from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
+import AmCharts from "@amcharts/amcharts3-react"
+import moment from "moment"
 // react component plugin for creating a beautiful datetime dropdown picker
 import Datetime from "react-datetime";
 // material-ui components
@@ -16,7 +18,9 @@ import ChartCard from "components/Cards/ChartCard.jsx";
 import IconCard from "components/Cards/IconCard.jsx";
 import { Button } from "components"
 import {
-  dailySalesChart
+  colouredLineChart,
+  dailySalesChart,
+  multipleBarsChart
 } from "variables/charts.jsx";
 
 import { API } from 'util/apiCaller'
@@ -29,9 +33,10 @@ class SensorCharts extends React.Component {
       startDate: null,
       endDate: null,
       sensors: [],
+      airTempData: [],
       airHumData: {
         labels: [],
-        series: [[]]
+        series: [[], []]
       },
       pages: null,
       loading: true
@@ -74,24 +79,32 @@ class SensorCharts extends React.Component {
     params += id ? ("&id="+id) : ""
     let url = "api/history/sensor/filter" + (params ? ("?"+params) : "")
     API(url).then(res => {
-      var airHumData = {labels: [], series: [[]]}
+      let airHumData = {labels: [], series: [[], []]}
+      let airTempArr = []
+
       if (res && res.data) {
         res.data.forEach((sensor, key) => {
-          airHumData.labels.push(sensor.utc.toString())
+          let dateFormatted = moment(sensor.date).format("YYYY-MM-DD HH:mm:ss")
+          airTempArr.push({date: dateFormatted, air: sensor.airTemp, soil: sensor.soilTemp})
+
+          airHumData.labels.push(dateFormatted)
           airHumData.series[0].push(sensor.airHum)
+          airHumData.series[1].push(sensor.soilHum)
         })
       }
-
+      colouredLineChart.options.low = Math.min.apply(Math, airHumData.series[0]) - 10
+      colouredLineChart.options.high = Math.max.apply(Math, airHumData.series[0]) + 10
   		this.setState({
         sensors: res.data,
         airHumData: airHumData,
+        airTempData: airTempArr,
         loading: false
       })
   	})
   }
   render() {
     const { classes } = this.props
-    const { sensors, loading, airHumData }  = this.state
+    const { sensors, loading, airHumData, airTempData }  = this.state
     return (
       <div>
         <GridContainer>
@@ -132,16 +145,24 @@ class SensorCharts extends React.Component {
           <ItemGrid xs={12} sm={12} md={12}>
             <IconCard
               icon={Timeline}
-              title="Coloured Line Chart "
-              category="- Rounded"
+              title="Biểu đồ độ ẩm "
+              category="- Không khí và Đất"
               iconColor="blue"
               content={
                 <ChartistGraph
                   data={airHumData}
                   type="Line"
-                  options={dailySalesChart.options}
-                  listener={dailySalesChart.animation}
+                  options={colouredLineChart.options}
+                  listener={colouredLineChart.animation}
                 />
+              }
+              footer={
+                <div>
+                  <i className={"fas fa-circle " + classes.info} /> Không khí{` `}
+                  <i
+                    className={"fas fa-circle " + classes.danger}
+                  /> Đất{` `}
+                </div>
               }
             />
           </ItemGrid>
@@ -162,24 +183,88 @@ class SensorCharts extends React.Component {
             />
           </ItemGrid> */}
         </GridContainer>
-        {/* <GridContainer>
-          <ItemGrid xs={12} sm={12} md={7}>
+        <GridContainer>
+          <ItemGrid xs={12} sm={12} md={12}>
             <IconCard
               icon={Timeline}
-              title="Coloured Lines Chart "
-              category="- Rounded"
+              title="Biểu đồ nhiệt độ "
+              category="- Không khí và Đất"
               iconColor="blue"
               content={
-                <ChartistGraph
-                  data={colouredLinesChart.data}
-                  type="Line"
-                  options={colouredLinesChart.options}
-                  listener={colouredLinesChart.animation}
-                />
+                <AmCharts.React
+                  className="my-class"
+                  style={{
+                    width: "100%",
+                    height: "500px"
+                  }}
+                  options={{
+                    "type": "serial",
+                    "theme": "light",
+                    "marginTop":10,
+                    "marginRight": 80,
+                    "legend": {
+                      "useGraphSettings": true
+                    },
+                    "synchronizeGrid":true,
+                    "valueAxes": [{
+                      "axisAlpha": 0,
+                      "position": "left"
+                    }],
+                    /* "dataDateFormat": "YYYY", */
+                    "categoryField": "date",
+                    "categoryAxis": {
+                        "minPeriod": "mm",
+                        "parseDates": true,
+                        "minorGridAlpha": 0.1,
+                        "minorGridEnabled": true
+                    },
+                    "chartScrollbar": {
+                      "graph": "g1",
+                      "scrollbarHeight": 80,
+                      "backgroundAlpha": 0,
+                      "selectedBackgroundAlpha": 0.1,
+                      "selectedBackgroundColor": "#888888",
+                      "graphFillAlpha": 0,
+                      "graphLineAlpha": 0.5,
+                      "selectedGraphFillAlpha": 0.2,
+                      "selectedGraphLineAlpha": 1,
+                      "autoGridCount": true,
+                      "color": "#AAAAAA"
+                    },
+                    "chartCursor": {
+                        "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                        "cursorPosition": "mouse"
+                    },
+                    "graphs": [{
+                      "id":"g1",
+                      "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[air]]</span></b>",
+                      "bullet": "round",
+                      "bulletSize": 10,
+                      "lineColor": "#00BCD4",
+                      "lineThickness": 4,
+                      "title": "Nhiệt độ Không Khí",
+                      "negativeBase": 30,
+                      /* "type": "smoothedLine", */
+                      "valueField": "air"
+                    }, {
+                      "id":"g2",
+                      /* "valueAxis": "v2", */
+                      "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[soil]]</span></b>",
+                      "bullet": "round",
+                      "bulletSize": 10,
+                      "bulletBorderThickness": 10,
+                      "lineColor": "#F05B4F",
+                      "lineThickness": 4,
+                      "title": "Nhiệt độ Đất",
+                      "negativeBase": 30,
+                      "valueField": "soil"
+                    }],
+                    "dataProvider": airTempData
+                  }} />
               }
             />
           </ItemGrid>
-          <ItemGrid xs={12} sm={12} md={5}>
+          {/*<ItemGrid xs={12} sm={12} md={5}>
             <IconCard
               icon={Timeline}
               iconColor="red"
@@ -203,8 +288,8 @@ class SensorCharts extends React.Component {
                 </div>
               }
             />
-          </ItemGrid>
-        </GridContainer> */}
+          </ItemGrid>*/}
+        </GridContainer> 
       </div>
     );
   }

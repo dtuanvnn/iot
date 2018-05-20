@@ -36,9 +36,9 @@ router.get('/sensor/filter', function(req, res){
   SensorData
   .aggregate([
     { $match: {
-        'utc': { 
-          $gte: startDate,
-          $lte: endDate 
+        utc: { 
+          $gte: Number(startDate),
+          $lte: Number(endDate) 
         } 
       } 
     },
@@ -69,13 +69,20 @@ router.get('/sensor/filter', function(req, res){
         _id: 1
       } 
     }
-  ])
-  .exec(function (err, sensors) {
+  ], function (err, sensors) {
+    console.log(err)
+    console.log(sensors)
     if (err) throw err
     res.json({
       data: sensors
     })
   })
+  /* .exec(function (err, sensors) {
+    if (err) throw err
+    res.json({
+      data: sensors
+    })
+  }) */
 
   /* SensorData
   .find({"utc": {

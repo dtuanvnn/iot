@@ -18,7 +18,7 @@ export const receiveLogin = (username, user) => ({
 })
 export const fetchLogin = login => dispatch => {
   dispatch(requestLogin(login.username))
-  return axios.post('http://localhost:3001/login', {
+  return axios.post('http://27.72.145.192:3001/login', {
     username: login.username,
     password: login.password
   })
